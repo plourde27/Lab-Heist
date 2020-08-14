@@ -51,6 +51,8 @@ public class Display extends drawInterface {
     
     public void setLevel() {
         blocks.add(new Block(0, 600, 1080, 200));
+        blocks.add(new Block(300, 560, 200, 40));
+        blocks.add(new Block(700, 480, 200, 40));
     }
     
     public void paintComponent(Graphics g){

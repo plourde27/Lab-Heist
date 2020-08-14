@@ -14,6 +14,8 @@ public class Player extends drawInterface {
     int UP = 38;
     int DOWN = 40;
     
+    int ox, oy;
+    
     double vely = 0;
     double velx = 0;
     
@@ -48,10 +50,15 @@ public class Player extends drawInterface {
             vely = -8;
         }
         
+        ox = x;
+        oy = y;
+        
         vely += 0.35;
         y += vely;
         
         x += velx;
+        
+        
         
         /*for (int i = 0 ; i < d.blocks.size() ; i++) {
             Block b = d.blocks.get(i);
@@ -65,20 +72,34 @@ public class Player extends drawInterface {
             }
         }*/
         
+        falling = true;
+        
         for (int i = 0 ; i < d.blocks.size() ; i++) {
             Block b = d.blocks.get(i);
-            if (x + w >= b.x && x <= b.x + b.w && y + h >= b.y && y <= b.y + b.h) {
-                if (vely > 0) {
-                    y = b.y - h;
-                    vely = 0;
-                    falling = false;
+            if (x + w > b.x && x < b.x + b.w && y + h > b.y && y < b.y + b.h) {
+                if (ox + w > b.x && ox < b.x + b.w) {
+                    if (vely > 0) {
+                        y = b.y - h;
+                        vely = 0;
+                        falling = false;
+                    }
+                    else {
+                        y = b.y + b.h;
+                        vely = 0;
+                    }
                 }
                 else {
-                    y = b.y + b.h;
-                    vely = 0;
+                    if (velx > 0) {
+                        x = b.x - w;
+                    }
+                    else {
+                        x = b.x + b.w;
+                    }
                 }
             }
         }
+        
+        
     }
     
     public void display(Graphics g, Keyboard kb, int tx, int ty, Display d) {
