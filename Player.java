@@ -21,11 +21,22 @@ public class Player extends drawInterface {
     
     boolean falling = true;
     
+    int effect;
+    int speed;
+    
+    ArrayList<Chemical> chemicals;
+    
     public Player() {
         x = 500;
         y = 385;
         w = 30;
         h = 30;
+        
+        speed = 6;
+        
+        chemicals = new ArrayList<Chemical>();
+        
+        effect = 0;
     }
     
     public void draw(Graphics g, int tx, int ty) {
@@ -35,25 +46,33 @@ public class Player extends drawInterface {
     }
     
     public void update(Keyboard kb, Display d) {
+        System.out.println(effect);
+        if (effect == 1) {
+            speed = 12;
+        }
+        else {
+            speed = 6;
+        }
+        
         velx = 0;
         
         if (kb.keys[RIGHT]) {
-            velx += 5;
+            velx += speed;
         }
         
         if (kb.keys[LEFT]) {
-            velx = -5;
+            velx = -speed;
         }
         
         if (kb.keys[UP] && !falling) {
             falling = true;
-            vely = -8;
+            vely = -10;
         }
         
         ox = x;
         oy = y;
         
-        vely += 0.35;
+        vely += 0.4;
         y += vely;
         
         x += velx;
@@ -99,11 +118,56 @@ public class Player extends drawInterface {
             }
         }
         
+        for (int i = 0 ; i < chemicals.size() ; i++) {
+            Chemical c = chemicals.get(i);
+            
+            //x - 5, x + 5, y - 20, y + 8
+            
+            if (c.status == 0 && x + w >= c.x - 5 && x <= c.x + 5 && y + w >= c.y - 20 && y <= c.y + 8) {
+                c.status = 1;
+                System.out.println("!!!");
+                int ct = 0;
+                int ox = c.x;
+                int oy = c.y;
+                while (true && ct < 1000) {
+                    c.x = (int)(Math.random() * 1040) + 40;
+                    c.y = (int)(Math.random() * 120) + 580;
+                    
+                    boolean f = true;
+                    
+                    for (int j = 0 ; j < chemicals.size() ; j++) {
+                        Chemical c2 = chemicals.get(j);
+                        if (i == j) continue;
+                        if (c2.status != 1) continue;
+                        if (Math.sqrt((c.x-c2.x)*(c.x-c2.x)+(c.y-c2.y)*(c.y-c2.y)) <= 25) {
+                            f = false;
+                        }
+                    }
+                    
+                    if (f) {
+                        break;
+                    }
+                    ct++;
+                }
+                
+                if (ct == 1000) {
+                    c.x = ox;
+                    c.y = oy;
+                    c.status = 0;
+                }
+            }
+        }
+        
         
     }
     
-    public void display(Graphics g, Keyboard kb, int tx, int ty, Display d) {
+    public void display(Graphics g, Keyboard kb, int tx, int ty, Display d, Mouse m, MoveMouse mm) {
         draw(g, tx, ty);
         update(kb, d);
+        
+        for (int i = 0 ; i < chemicals.size() ; i++) {
+            System.out.println(chemicals.get(i).status);
+            chemicals.get(i).display(g, tx, ty, m, mm, d, this);
+        }
     }
 }

@@ -8,10 +8,11 @@ public class MoveMouse implements MouseMotionListener {
     
     public void mouseMoved(MouseEvent e) {
         x = e.getX();
-        y = e.getY() - 24;
+        y = e.getY();
     }
     
     public void mouseDragged(MouseEvent e) {
-        
+        x = e.getX();
+        y = e.getY();
     }
 }

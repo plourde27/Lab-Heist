@@ -61,6 +61,19 @@ public class drawInterface extends JComponent {
         g.fillOval((int) (x - (w * scl) / 2), (int) (y - (h * scl) / 2), (int) (w * scl), (int) (h * scl));
     }
     
+    public void ellipseOutline(int x, int y, int w, int h, Graphics g, int tx, int ty) {
+        x = transform(x, y, tx, ty)[0];
+        y = transform(x, y, tx, ty)[1];
+        
+        
+        g.drawOval((int) (x - (w * scl) / 2), (int) (y - (h * scl) / 2), w, h);
+    }
+    
+    public void strokeWeight(int sw, Graphics g) {
+        Graphics2D g2 = (Graphics2D)g;
+        g2.setStroke(new BasicStroke(sw));
+    }
+    
     public void fill(Color c, Graphics gr) {
         gr.setColor(c);
     }

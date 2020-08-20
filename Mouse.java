@@ -1,5 +1,7 @@
 import java.awt.event.*;
-public class Mouse implements MouseListener{
+import javax.swing.*;
+
+public class Mouse extends JPanel implements MouseListener{
     boolean clicked;
     boolean pressed;
     int x, y;
@@ -11,17 +13,12 @@ public class Mouse implements MouseListener{
     public void mousePressed(MouseEvent e){
         x = e.getX();
         y = e.getY();
-        if (!pressed) {
-            clicked = true;
-            pressed = true;
-            System.out.println(x + " " + y);
-        }
-        else {
-            clicked = false;
-            pressed = true;
-        }
+        
+        clicked = true;
+        pressed = true;
     }
     public void mouseReleased(MouseEvent e){
+        pressed = false;
         //clicked = false;
         //pressed = false;
     }
@@ -32,7 +29,13 @@ public class Mouse implements MouseListener{
 
     }
     public void mouseClicked(MouseEvent e) {
-        pressed = false;
+        System.out.println("hello");
+        //pressed = false;
         clicked = false;
+    }
+    
+    public void mouseDragged(MouseEvent e) {
+        x = e.getX();
+        y = e.getY();
     }
 }

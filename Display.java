@@ -17,11 +17,14 @@ public class Display extends drawInterface {
     Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     Cursor arrowCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     
+    
     int tx, ty;
     
     Player p;
     ArrayList<Block> blocks;
     boolean start;
+    
+    boolean chosen = false;
     
     public Display(Game g, Mouse m, Keyboard k, MoveMouse mmw, Frame frm) {
         super();
@@ -50,13 +53,19 @@ public class Display extends drawInterface {
     }
     
     public void setLevel() {
-        blocks.add(new Block(0, 600, 1080, 200));
-        blocks.add(new Block(300, 560, 200, 40));
-        blocks.add(new Block(700, 480, 200, 40));
+        blocks.add(new Block(0, 560, 1080, 200));
+        blocks.add(new Block(300, 520, 200, 40));
+        blocks.add(new Block(700, 440, 200, 40));
+        
+        p.chemicals.add(new Chemical(0, 300, 500));
     }
     
     public void paintComponent(Graphics g){
+        
+        
         super.paintComponent(g);
+        
+        
         
         if (start) {
             setLevel();
@@ -67,6 +76,13 @@ public class Display extends drawInterface {
             blocks.get(i).display(g, tx, ty, this);
         }
         
-        p.display(g, kb, tx, ty, this);
+        fill(255, 255, 255, g);
+        rect(540, 640, 1080, 160, g, tx, ty);
+        
+        p.display(g, kb, tx, ty, this, mouse, mm);
+        
+        
+        mouse.clicked = false;
+        
     }
 }
