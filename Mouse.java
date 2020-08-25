@@ -29,7 +29,6 @@ public class Mouse extends JPanel implements MouseListener{
 
     }
     public void mouseClicked(MouseEvent e) {
-        System.out.println("hello");
         //pressed = false;
         clicked = false;
     }
