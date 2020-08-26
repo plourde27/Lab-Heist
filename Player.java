@@ -101,7 +101,7 @@ public class Player extends drawInterface {
         
         if (kb.keys[UP] && !falling && effect != 2) {
             falling = true;
-            vely = -10;
+            vely = -11;
         }
         
         //System.out.println(sticking);
@@ -119,11 +119,11 @@ public class Player extends drawInterface {
         }
         if (sticking && effect == 2) {
             vely = 0;
-            if (stickr) {
+            if (stickr && !kb.keys[LEFT]) {
                 x += 3;
                 velx = 3;
             }
-            else {
+            else if (!stickr && !kb.keys[RIGHT]) {
                 x -= 3;
                 velx = -3;
             }
@@ -142,7 +142,7 @@ public class Player extends drawInterface {
         
         oy = y;
         
-        vely += 0.4;
+        vely += 0.3;
         y += vely;
         
         x += velx;

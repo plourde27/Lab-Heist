@@ -22,6 +22,7 @@ public class Display extends drawInterface {
     
     Player p;
     ArrayList<Block> blocks;
+    ArrayList<Robot> robots;
     boolean start;
     
     boolean chosen = false;
@@ -36,6 +37,7 @@ public class Display extends drawInterface {
         p = new Player();
         start = true;
         blocks = new ArrayList<Block>();
+        robots = new ArrayList<Robot>();
     }
     
     public void draw(){
@@ -62,6 +64,8 @@ public class Display extends drawInterface {
         p.chemicals.add(new Chemical(0, 300, 500));
         p.chemicals.add(new Chemical(1, 240, 500));
         p.chemicals.add(new Chemical(2, 140, 500));
+        
+        robots.add(new Robot(0, 600, 500));
     }
     
     public void paintComponent(Graphics g){
@@ -78,6 +82,10 @@ public class Display extends drawInterface {
         
         for (int i = 0 ; i < blocks.size() ; i++) {
             blocks.get(i).display(g, tx, ty, this);
+        }
+        
+        for (int i = 0 ; i < robots.size() ; i++) {
+            robots.get(i).display(g, p, this, tx, ty);
         }
         
         fill(255, 255, 255, g);
