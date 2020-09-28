@@ -10,8 +10,11 @@ import java.lang.Math.*;
 public class Robot extends drawInterface {
     
     int type = 0;
-    int x;
+    double x;
     int y;
+    int mode;
+    double speed = 1.5;
+    double vely = 0;
     
     
     public Robot(int t, int xx, int yy) {
@@ -25,18 +28,65 @@ public class Robot extends drawInterface {
         type = t;
         x = xx;
         y = yy;
+        mode = -1;
     }
     
     public void draw(Graphics g, Player p, Display d, int tx, int ty) {
-        fill(0, 0,  200, g);
-        rect(x, y - 13, 17, 17, g, tx, ty);
-        rect(x, y, 10, 10, g, tx, ty);
-        rect(x, y + 25, 23, 40, g, tx, ty);
-        rect(x, y + 60, 8, 30, g, tx, ty);
+        fill(200, 0, 0, g);
+        rect((int)x, y - 13, 17, 17, g, tx, ty);
+        rect((int)x, y, 10, 10, g, tx, ty);
+        rect((int)x, y + 25, 23, 40, g, tx, ty);
+        rect((int)x, y + 60, 8, 30, g, tx, ty); //x - 12, x + 12, y - 22, y + 75
     }
     
     public void update(Player p, Display d) {
-        
+        double px = x;
+        int py = y;
+        x += speed * mode;
+        int ct = 0;
+        int val = -1;
+        //System.out.println(mode + " " + speed);
+        for (int i = 0 ; i < d.blocks.size() ; i++) {
+            //System.out.println((x - 12 >= d.blocks.get(i).x) + " " + (x + 12 <= d.blocks.get(i).x + d.blocks.get(i).w) + " " + (y - 22 >= d.blocks.get(i).y) + " " + (y + 75 <= d.blocks.get(i).y + d.blocks.get(i).h));
+
+            if (x + 12 >= d.blocks.get(i).x && x - 12 <= d.blocks.get(i).x + d.blocks.get(i).w && y + 75 >= d.blocks.get(i).y && y - 22 <= d.blocks.get(i).y + d.blocks.get(i).h) {
+                
+                val = d.blocks.get(i).y - 75;
+                System.out.println(this.x + " " + d.blocks.get(i).x);
+
+                ct++;
+            }
+            
+        }
+        if (ct > 1) {
+            mode = -mode;
+            vely = 0;
+        }
+        else if (ct == 0) {
+            x = px;
+            vely += 0.35;
+            y += vely;
+            for (int i = 0 ; i < d.blocks.size() ; i++) {
+                //System.out.println((x - 12 >= d.blocks.get(i).x) + " " + (x + 12 <= d.blocks.get(i).x + d.blocks.get(i).w) + " " + (y - 22 >= d.blocks.get(i).y) + " " + (y + 75 <= d.blocks.get(i).y + d.blocks.get(i).h));
+    
+                if (x + 12 >= d.blocks.get(i).x && x - 12 <= d.blocks.get(i).x + d.blocks.get(i).w && y + 75 >= d.blocks.get(i).y && y - 22 <= d.blocks.get(i).y + d.blocks.get(i).h) {
+                    
+                    val = d.blocks.get(i).y - 75;
+                    
+                    ct++;
+                }
+                
+            }
+            
+            if (ct == 1) {
+                y = val;
+            }
+        }
+        else {
+            vely = 0;
+            y = val;
+        }
+        //System.out.println(ct);
     }
     
     public void display(Graphics g, Player p, Display d, int tx, int ty) {

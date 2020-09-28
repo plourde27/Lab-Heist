@@ -55,17 +55,17 @@ public class Display extends drawInterface {
     }
     
     public void setLevel() {
-        blocks.add(new Block(0, 560, 1080, 200));
-        blocks.add(new Block(300, 520, 200, 40));
-        blocks.add(new Block(700, 440, 200, 40));
+        blocks.add(new Block(0, 520, 1080, 200));
+        blocks.add(new Block(300, 480, 200, 40));
+        blocks.add(new Block(700, 380, 200, 40));
         blocks.add(new Block(300, 320, 40, 240));
         blocks.add(new Block(340, 420, 40, 140));
         
-        p.chemicals.add(new Chemical(0, 300, 500));
-        p.chemicals.add(new Chemical(1, 240, 500));
-        p.chemicals.add(new Chemical(2, 140, 500));
+        p.chemicals.add(new Chemical(0, 280, 480));
+        p.chemicals.add(new Chemical(1, 220, 480));
+        p.chemicals.add(new Chemical(2, 120, 480));
         
-        robots.add(new Robot(0, 600, 500));
+        robots.add(new Robot(0, 600, 240));
     }
     
     public void paintComponent(Graphics g){

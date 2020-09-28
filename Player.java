@@ -142,7 +142,7 @@ public class Player extends drawInterface {
         
         oy = y;
         
-        vely += 0.3;
+        vely += 0.37;
         y += vely;
         
         x += velx;
@@ -172,7 +172,7 @@ public class Player extends drawInterface {
         for (int i = 0 ; i < d.blocks.size() ; i++) {
             Block b = d.blocks.get(i);
             if (x + w > b.x && x < b.x + b.w && y + h > b.y && y < b.y + b.h) {
-                System.out.println(i);
+                //System.out.println(i);
                 if (ox + w > b.x && ox < b.x + b.w) {
                     if (vely > 0) {
                         y = b.y - h;
