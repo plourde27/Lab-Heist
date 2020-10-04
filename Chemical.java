@@ -163,33 +163,42 @@ public class Chemical extends drawInterface {
     }
     
     public void draw(Graphics g, int tx, int ty) {
+        int vx = tx;
+        int vy = ty;
+        
+        if (status == 1 || status == 2) {
+            vx = 0;
+            vy = 0;
+        }
+        
+        
         fill(200, 200, 200, 100, g);
-        rect(x, y - 8, 10, 25, g, tx, ty);
+        rect(x, y - 8, 10, 25, g, vx, vy);
         
         fill(col1[0], col1[1], col1[2], 200, g);
         
-        ellipse(x, y + 2, 10, 12, g, tx, ty);
+        ellipse(x, y + 2, 10, 12, g, vx, vy);
         
         fill(200, 200, 200, 200, g);
         strokeWeight(3, g);
-        ellipseOutline(x, y + 2, 10, 12, g, tx, ty);
+        ellipseOutline(x, y + 2, 10, 12, g, vx, vy);
         
         fill(col1[0], col1[1], col1[2], 200, g);
         
-        rect(x, y - 2, 10, 10, g, tx, ty);
+        rect(x, y - 2, 10, 10, g, vx, vy);
         
         fill(col2[0], col2[1], col2[2], 200, g);
         
-        rect(x, y - 10, 10, 10, g, tx, ty);
+        rect(x, y - 10, 10, 10, g, vx, vy);
         
         fill(200, 200, 200, 200, g);
         
-        line(x - 5, y - 19, x - 5, y + 4, g, tx, ty);
-        line(x + 5, y - 19, x + 5, y + 4, g, tx, ty);
+        line(x - 5, y - 19, x - 5, y + 4, g, vx, vy);
+        line(x + 5, y - 19, x + 5, y + 4, g, vx, vy);
         
         if (status == 2) {
             fill(col1[0], col1[1], col1[2], 200, g);
-            ellipse(x, y, circSize, circSize, g, tx, ty);
+            ellipse(x, y, circSize, circSize, g, vx, vy);
         }
     }
     

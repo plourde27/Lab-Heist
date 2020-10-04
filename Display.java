@@ -55,11 +55,16 @@ public class Display extends drawInterface {
     }
     
     public void setLevel() {
-        blocks.add(new Block(0, 520, 1080, 200));
+        blocks.add(new Block(0, 520, 100080, 200));
         blocks.add(new Block(300, 480, 200, 40));
         blocks.add(new Block(700, 380, 200, 40));
         blocks.add(new Block(300, 320, 40, 240));
         blocks.add(new Block(340, 420, 40, 140));
+        blocks.add(new Block(1040, 340, 40, 200));
+        blocks.add(new Block(0, 340, 40, 200));
+        blocks.add(new Block(1080, 440, 40, 200));
+        blocks.add(new Block(1380, 440, 40, 200));
+        blocks.add(new Block(1120, 480, 260, 40, 1));
         
         p.chemicals.add(new Chemical(0, 280, 480));
         p.chemicals.add(new Chemical(1, 220, 480));
@@ -88,10 +93,17 @@ public class Display extends drawInterface {
             robots.get(i).display(g, p, this, tx, ty);
         }
         
-        fill(255, 255, 255, g);
-        rect(540, 640, 1080, 160, g, tx, ty);
+        
+        
+        tx = Math.max(0, p.x - 540);
+        ty = Math.min(0, p.y - 360);
+        
+        //System.out.println(tx + " " + ty);
         
         p.display(g, kb, tx, ty, this, mouse, mm);
+        
+        fill(255, 255, 255, g);
+        rect(540, 640, 1080, 160, g, 0, 0);
         
         
         mouse.clicked = false;

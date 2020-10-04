@@ -9,6 +9,7 @@ import java.lang.Math.*;
 
 public class Block extends drawInterface {
     int x, y, w, h;
+    int t = 0;
     
     public Block(int xx, int yy, int ww, int hh) {
         x = xx;
@@ -17,8 +18,19 @@ public class Block extends drawInterface {
         h = hh;
     }
     
+    public Block(int xx, int yy, int ww, int hh, int tp) {
+        x = xx;
+        y = yy;
+        w = ww;
+        h = hh;
+        t = tp;
+    }
+    
     public void draw(Graphics g, int tx, int ty) {
         fill(0, 0, 0, g);
+        if (t == 1) {
+            fill(0, 200, 0, g);
+        }
         rect(x + w/2, y + h/2, w, h, g, tx, ty);
     }
     

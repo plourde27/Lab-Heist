@@ -40,53 +40,59 @@ public class Robot extends drawInterface {
     }
     
     public void update(Player p, Display d) {
-        double px = x;
-        int py = y;
-        x += speed * mode;
-        int ct = 0;
-        int val = -1;
-        //System.out.println(mode + " " + speed);
-        for (int i = 0 ; i < d.blocks.size() ; i++) {
-            //System.out.println((x - 12 >= d.blocks.get(i).x) + " " + (x + 12 <= d.blocks.get(i).x + d.blocks.get(i).w) + " " + (y - 22 >= d.blocks.get(i).y) + " " + (y + 75 <= d.blocks.get(i).y + d.blocks.get(i).h));
-
-            if (x + 12 >= d.blocks.get(i).x && x - 12 <= d.blocks.get(i).x + d.blocks.get(i).w && y + 75 >= d.blocks.get(i).y && y - 22 <= d.blocks.get(i).y + d.blocks.get(i).h) {
-                
-                val = d.blocks.get(i).y - 75;
-                System.out.println(this.x + " " + d.blocks.get(i).x);
-
-                ct++;
-            }
-            
-        }
-        if (ct > 1) {
-            mode = -mode;
-            vely = 0;
-        }
-        else if (ct == 0) {
-            x = px;
-            vely += 0.35;
-            y += vely;
+        if (type == 0) {
+            double px = x;
+            int py = y;
+            x += speed * mode;
+            int ct = 0;
+            int val = -1;
+            //System.out.println(mode + " " + speed);
             for (int i = 0 ; i < d.blocks.size() ; i++) {
                 //System.out.println((x - 12 >= d.blocks.get(i).x) + " " + (x + 12 <= d.blocks.get(i).x + d.blocks.get(i).w) + " " + (y - 22 >= d.blocks.get(i).y) + " " + (y + 75 <= d.blocks.get(i).y + d.blocks.get(i).h));
     
                 if (x + 12 >= d.blocks.get(i).x && x - 12 <= d.blocks.get(i).x + d.blocks.get(i).w && y + 75 >= d.blocks.get(i).y && y - 22 <= d.blocks.get(i).y + d.blocks.get(i).h) {
                     
                     val = d.blocks.get(i).y - 75;
-                    
+                    System.out.println(this.x + " " + d.blocks.get(i).x);
+    
                     ct++;
                 }
                 
             }
-            
-            if (ct == 1) {
+            if (ct > 1) {
+                mode = -mode;
+                vely = 0;
+            }
+            else if (ct == 0) {
+                x = px;
+                vely += 0.35;
+                y += vely;
+                for (int i = 0 ; i < d.blocks.size() ; i++) {
+                    //System.out.println((x - 12 >= d.blocks.get(i).x) + " " + (x + 12 <= d.blocks.get(i).x + d.blocks.get(i).w) + " " + (y - 22 >= d.blocks.get(i).y) + " " + (y + 75 <= d.blocks.get(i).y + d.blocks.get(i).h));
+        
+                    if (x + 12 >= d.blocks.get(i).x && x - 12 <= d.blocks.get(i).x + d.blocks.get(i).w && y + 75 >= d.blocks.get(i).y && y - 22 <= d.blocks.get(i).y + d.blocks.get(i).h) {
+                        
+                        val = d.blocks.get(i).y - 75;
+                        
+                        ct++;
+                    }
+                    
+                }
+                
+                if (ct == 1) {
+                    y = val;
+                }
+            }
+            else {
+                vely = 0;
                 y = val;
             }
+            
+            if (p.x + 15 >= this.x - 12 && p.x - 15 <= this.x + 12 && p.y + 15 >= this.y - 22 && p.y - 15 <= this.y + 75) {
+                System.out.println("ALARM");
+            }
+            //System.out.println(ct);
         }
-        else {
-            vely = 0;
-            y = val;
-        }
-        //System.out.println(ct);
     }
     
     public void display(Graphics g, Player p, Display d, int tx, int ty) {

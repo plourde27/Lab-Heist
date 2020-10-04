@@ -61,11 +61,11 @@ public class Player extends drawInterface {
         
         fill(col1[0], col1[1], col1[2], 200, g);
         
-        rect(1080 - wid / 2, 5, wid, 10, g, tx, ty);
+        rect(1080 - wid / 2, 5, wid, 10, g, 0, 0);
         
         fill(col2[0], col2[1], col2[2], 200, g);
         
-        rect(1080 - wid / 2, 15, wid, 10, g, tx, ty);
+        rect(1080 - wid / 2, 15, wid, 10, g, 0, 0);
         
         fill(255, 0, 0, g);
         
