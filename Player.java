@@ -14,6 +14,10 @@ public class Player extends drawInterface {
     int UP = 38;
     int DOWN = 40;
     
+    int fc = 0;
+    
+    boolean moving = false;
+    
     boolean stickr;
     boolean sticking;
     int stickly;
@@ -59,6 +63,11 @@ public class Player extends drawInterface {
             wid = (int) ((((double)timeleft) / mx) * 1080);
         }
         
+        if (effect == 1) {
+            fill(0, 200, 0, 50, g);
+            ellipse(x+w/2, y+h/2, 150, 150, g, tx, ty);
+        }
+        
         fill(col1[0], col1[1], col1[2], 200, g);
         
         rect(1080 - wid / 2, 5, wid, 10, g, 0, 0);
@@ -91,20 +100,45 @@ public class Player extends drawInterface {
         
         velx = 0;
         
+        moving = false;
+        
         if (kb.keys[RIGHT]) {
-            velx += speed;
+            velx = speed;
+            moving = true;
         }
         
         if (kb.keys[LEFT]) {
             velx = -speed;
+            moving = true;
+        }
+        
+        int mnx = -1;
+        
+        if (effect == 1 && !moving) {
+            int mn = 1000000000;
+            for (int i = 0 ; i < d.blocks.size() ; i++) {
+                Block b = d.blocks.get(i);
+                int val = Math.min(Math.abs(b.x - (x+w)), Math.abs(x - (b.x+b.w)));
+                if (b.t == 1 && val < mn) {
+                    mn = val;
+                    mnx = b.x;
+                }
+            }
+            
+            if (mnx != -1) {
+                if (mnx > x) {
+                    velx = 3;
+                }
+                else {
+                    velx = -3;
+                }
+            }
         }
         
         if (kb.keys[UP] && !falling && effect != 2) {
             falling = true;
             vely = -11;
         }
-        
-        //System.out.println(sticking);
         
         ox = x;
         
@@ -161,6 +195,8 @@ public class Player extends drawInterface {
             }
         }*/
         
+        int prevy = y;
+        
         falling = true;
         
         if (x != stickx) {
@@ -169,60 +205,63 @@ public class Player extends drawInterface {
         
         boolean first = true;
         
+        
+        fc++;
+        
         for (int i = 0 ; i < d.blocks.size() ; i++) {
             Block b = d.blocks.get(i);
             if (x + w > b.x && x < b.x + b.w && y + h > b.y && y < b.y + b.h) {
-                //System.out.println(i);
-                if (ox + w > b.x && ox < b.x + b.w) {
-                    if (vely > 0) {
-                        y = b.y - h;
-                        vely = 0;
-                        falling = false;
-                        //System.out.println("hell0");
-                    }
-                    else {
-                        y = b.y + b.h;
-                        vely = 0;
-                        //System.out.println("h3ll0");
-                    }
-                }
-                else {
-                    if (velx > 0) {
-                        stickr = true;
-                        x = b.x - w;
-                        if (first) {
-                            stickly = b.y - h;
-                            stickhy = b.y + b.h;
-                            first = false;
+                if (b.t == 0) {
+                
+                    if (ox + w > b.x && ox < b.x + b.w) {
+                        if (vely > 0.0) {
+                            y = b.y - h;
+                            vely = 0;
+                            falling = false;
                         }
                         else {
-                            stickly = Math.min(stickly, b.y - h);
-                            stickhy = Math.max(stickhy, b.y + b.h);
+                            y = b.y + b.h;
+                            vely = 0;
                         }
-                        sticking = true;
-                        stickx = x;
                     }
                     else {
-                        stickr = false;
-                        x = b.x + b.w;
-                        if (first) {
-                            stickly = b.y - h;
-                            stickhy = b.y + b.h;
-                            first = false;
+                        if (velx > 0) {
+                            stickr = true;
+                            x = b.x - w;
+                            if (first) {
+                                stickly = b.y - h;
+                                stickhy = b.y + b.h;
+                                first = false;
+                            }
+                            else {
+                                stickly = Math.min(stickly, b.y - h);
+                                stickhy = Math.max(stickhy, b.y + b.h);
+                            }
+                            sticking = true;
+                            stickx = x;
                         }
                         else {
-                            stickly = Math.min(stickly, b.y - h);
-                            stickhy = Math.max(stickhy, b.y + b.h);
+                            stickr = false;
+                            x = b.x + b.w;
+                            if (first) {
+                                stickly = b.y - h;
+                                stickhy = b.y + b.h;
+                                first = false;
+                            }
+                            else {
+                                stickly = Math.min(stickly, b.y - h);
+                                stickhy = Math.max(stickhy, b.y + b.h);
+                            }
+                            sticking = true;
+                            stickx = x;
                         }
-                        sticking = true;
-                        stickx = x;
                     }
                 }
+                else if (b.t == 1) {
+                    //y = b.y - b.h;
+                    //vely = 0.1;
+                }    
             }
-        }
-        
-        if (sticking) {
-            //System.out.println(stickly + " " + stickhy);
         }
         
         for (int i = 0 ; i < chemicals.size() ; i++) {

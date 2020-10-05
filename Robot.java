@@ -15,6 +15,8 @@ public class Robot extends drawInterface {
     int mode;
     double speed = 1.5;
     double vely = 0;
+    boolean dead = false;
+    int fade = 255;
     
     
     public Robot(int t, int xx, int yy) {
@@ -32,7 +34,7 @@ public class Robot extends drawInterface {
     }
     
     public void draw(Graphics g, Player p, Display d, int tx, int ty) {
-        fill(200, 0, 0, g);
+        fill(200, 0, 0, fade, g);
         rect((int)x, y - 13, 17, 17, g, tx, ty);
         rect((int)x, y, 10, 10, g, tx, ty);
         rect((int)x, y + 25, 23, 40, g, tx, ty);
@@ -40,20 +42,23 @@ public class Robot extends drawInterface {
     }
     
     public void update(Player p, Display d) {
-        if (type == 0) {
+        if (dead) {
+            fade -= 3;
+            if (fade < 0) {
+                fade = 0;
+            }
+        }
+        else if (type == 0) {
             double px = x;
             int py = y;
             x += speed * mode;
             int ct = 0;
             int val = -1;
-            //System.out.println(mode + " " + speed);
             for (int i = 0 ; i < d.blocks.size() ; i++) {
-                //System.out.println((x - 12 >= d.blocks.get(i).x) + " " + (x + 12 <= d.blocks.get(i).x + d.blocks.get(i).w) + " " + (y - 22 >= d.blocks.get(i).y) + " " + (y + 75 <= d.blocks.get(i).y + d.blocks.get(i).h));
-    
                 if (x + 12 >= d.blocks.get(i).x && x - 12 <= d.blocks.get(i).x + d.blocks.get(i).w && y + 75 >= d.blocks.get(i).y && y - 22 <= d.blocks.get(i).y + d.blocks.get(i).h) {
                     
                     val = d.blocks.get(i).y - 75;
-                    System.out.println(this.x + " " + d.blocks.get(i).x);
+                    
     
                     ct++;
                 }
@@ -68,8 +73,7 @@ public class Robot extends drawInterface {
                 vely += 0.35;
                 y += vely;
                 for (int i = 0 ; i < d.blocks.size() ; i++) {
-                    //System.out.println((x - 12 >= d.blocks.get(i).x) + " " + (x + 12 <= d.blocks.get(i).x + d.blocks.get(i).w) + " " + (y - 22 >= d.blocks.get(i).y) + " " + (y + 75 <= d.blocks.get(i).y + d.blocks.get(i).h));
-        
+                    
                     if (x + 12 >= d.blocks.get(i).x && x - 12 <= d.blocks.get(i).x + d.blocks.get(i).w && y + 75 >= d.blocks.get(i).y && y - 22 <= d.blocks.get(i).y + d.blocks.get(i).h) {
                         
                         val = d.blocks.get(i).y - 75;
@@ -91,8 +95,15 @@ public class Robot extends drawInterface {
             if (p.x + 15 >= this.x - 12 && p.x - 15 <= this.x + 12 && p.y + 15 >= this.y - 22 && p.y - 15 <= this.y + 75) {
                 System.out.println("ALARM");
             }
-            //System.out.println(ct);
+            
+            if (p.effect == 1 && Math.sqrt(Math.pow(p.x+p.w/2-x,2)+Math.pow(p.y+p.h/2-y,2)) < 75) {
+                die();
+            }
         }
+    }
+    
+    public void die() {
+        dead = true;
     }
     
     public void display(Graphics g, Player p, Display d, int tx, int ty) {

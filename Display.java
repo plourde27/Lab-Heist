@@ -19,6 +19,7 @@ public class Display extends drawInterface {
     
     
     int tx, ty;
+    int sizeX, sizeY;
     
     Player p;
     ArrayList<Block> blocks;
@@ -55,7 +56,30 @@ public class Display extends drawInterface {
     }
     
     public void setLevel() {
-        blocks.add(new Block(0, 520, 100080, 200));
+        String[] level = {
+                          "....................................",
+                          "....................................",
+                          "....................................",
+                          ".....xxxxxx.............xx........x.",
+                          "..xxxxxxxxxx........................",
+                          "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                        };
+        
+        sizeX = level.length;
+        sizeY = level[0].length();
+        
+        for (int i = 0 ; i < sizeX ; i++) {
+            for (int j = 0 ; j < sizeY ; j++) {
+                String ans = level[i].substring(j, j+1);
+                if (ans.equals("x")) {
+                    blocks.add(new Block(j*40, i*40, 40, 40));
+                }
+            }
+        }
+        
+        p.x = 50;
+        p.y = sizeX * 40 - 30;
+        /*blocks.add(new Block(0, 520, 100080, 200));
         blocks.add(new Block(300, 480, 200, 40));
         blocks.add(new Block(700, 380, 200, 40));
         blocks.add(new Block(300, 320, 40, 240));
@@ -70,7 +94,7 @@ public class Display extends drawInterface {
         p.chemicals.add(new Chemical(1, 220, 480));
         p.chemicals.add(new Chemical(2, 120, 480));
         
-        robots.add(new Robot(0, 600, 240));
+        robots.add(new Robot(0, 600, 240));*/
     }
     
     public void paintComponent(Graphics g){
@@ -93,17 +117,29 @@ public class Display extends drawInterface {
             robots.get(i).display(g, p, this, tx, ty);
         }
         
+        int ltx = 0;
+        int rtx = sizeY*40 - 1080;
+        int lty = 0;
+        int rty = sizeX*40 - 560;
+        tx = p.x - 540;
+        tx = Math.max(tx, ltx);
+        tx = Math.min(tx, rtx);
+        
+        ty = p.y - 320;
+        ty = Math.min(ty, lty);
         
         
-        tx = Math.max(0, p.x - 540);
-        ty = Math.min(0, p.y - 360);
+        ty = Math.min(ty, rty);
         
-        //System.out.println(tx + " " + ty);
-        
-        p.display(g, kb, tx, ty, this, mouse, mm);
+        System.out.println(ty + " " + rty);
+        System.out.println("end");
         
         fill(255, 255, 255, g);
         rect(540, 640, 1080, 160, g, 0, 0);
+        
+        p.display(g, kb, tx, ty, this, mouse, mm);
+        
+        
         
         
         mouse.clicked = false;

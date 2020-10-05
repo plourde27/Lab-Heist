@@ -29,7 +29,7 @@ public class Block extends drawInterface {
     public void draw(Graphics g, int tx, int ty) {
         fill(0, 0, 0, g);
         if (t == 1) {
-            fill(0, 200, 0, g);
+            fill(0, 184, 0, g);
         }
         rect(x + w/2, y + h/2, w, h, g, tx, ty);
     }
