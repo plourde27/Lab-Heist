@@ -14,6 +14,8 @@ public class Player extends drawInterface {
     int UP = 38;
     int DOWN = 40;
     
+    int room = 0;
+    
     int fc = 0;
     
     boolean moving = false;
@@ -260,7 +262,10 @@ public class Player extends drawInterface {
                 else if (b.t == 1) {
                     //y = b.y - b.h;
                     //vely = 0.1;
-                }    
+                }  
+                else if (b.t == 3) {
+                    room = b.rbt;
+                }
             }
         }
         

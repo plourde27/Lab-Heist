@@ -90,6 +90,10 @@ public class drawInterface extends JComponent {
         g.setFont(new Font("Avenir", Font.PLAIN, sz));
     }
     
+    public void textFont(String f, int sz, Graphics g) {
+        g.setFont(new Font(f, Font.PLAIN, sz));
+    }
+    
     public void textSize(int sz, Graphics g, String f) {
         g.setFont(new Font(f, Font.PLAIN, sz));
     }

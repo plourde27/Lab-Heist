@@ -52,44 +52,28 @@ public class Robot extends drawInterface {
             double px = x;
             int py = y;
             x += speed * mode;
+            y += vely;
+            vely += 0.35;
             int ct = 0;
             int val = -1;
+            boolean found = false;
             for (int i = 0 ; i < d.blocks.size() ; i++) {
                 if (x + 12 >= d.blocks.get(i).x && x - 12 <= d.blocks.get(i).x + d.blocks.get(i).w && y + 75 >= d.blocks.get(i).y && y - 22 <= d.blocks.get(i).y + d.blocks.get(i).h) {
                     
-                    val = d.blocks.get(i).y - 75;
-                    
-    
-                    ct++;
-                }
-                
-            }
-            if (ct > 1) {
-                mode = -mode;
-                vely = 0;
-            }
-            else if (ct == 0) {
-                x = px;
-                vely += 0.35;
-                y += vely;
-                for (int i = 0 ; i < d.blocks.size() ; i++) {
-                    
-                    if (x + 12 >= d.blocks.get(i).x && x - 12 <= d.blocks.get(i).x + d.blocks.get(i).w && y + 75 >= d.blocks.get(i).y && y - 22 <= d.blocks.get(i).y + d.blocks.get(i).h) {
-                        
-                        val = d.blocks.get(i).y - 75;
-                        
-                        ct++;
+                    if (!(py + 75 > d.blocks.get(i).y && py - 22 < d.blocks.get(i).y + d.blocks.get(i).h)) {
+                        y = d.blocks.get(i).y - 75;
+                        vely = 0;
                     }
-                    
+                    else {
+                        x = px;
+                        found = true;
+                    }
                 }
                 
-                if (ct == 1) {
-                    y = val;
-                }
             }
-            else {
-                vely = 0;
-                y = val;
+            
+            if (found) {
+                mode = -mode;
             }
             
             if (p.x + 15 >= this.x - 12 && p.x - 15 <= this.x + 12 && p.y + 15 >= this.y - 22 && p.y - 15 <= this.y + 75) {

@@ -17,6 +17,7 @@ public class Display extends drawInterface {
     Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     Cursor arrowCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     
+    int room = 0;
     
     int tx, ty;
     int sizeX, sizeY;
@@ -27,6 +28,10 @@ public class Display extends drawInterface {
     boolean start;
     
     boolean chosen = false;
+    
+    ArrayList<Integer> xs = new ArrayList<Integer>();
+    ArrayList<Integer> ys = new ArrayList<Integer>();
+        
     
     public Display(Game g, Mouse m, Keyboard k, MoveMouse mmw, Frame frm) {
         super();
@@ -39,6 +44,14 @@ public class Display extends drawInterface {
         start = true;
         blocks = new ArrayList<Block>();
         robots = new ArrayList<Robot>();
+        for (int i = 0 ; i < 1000 ; i += 20) {
+            if (Math.random() < 0.27 && ys.size() >= xs.size()) {
+                xs.add(i);
+            }
+            if (Math.random() < 0.27 && xs.size() >= ys.size()) {
+                ys.add(i);
+            }
+        }
     }
     
     public void draw(){
@@ -56,14 +69,8 @@ public class Display extends drawInterface {
     }
     
     public void setLevel() {
-        String[] level = {
-                          "....................................",
-                          "....................................",
-                          "....................................",
-                          ".....xxxxxx.............xx........x.",
-                          "..xxxxxxxxxx........................",
-                          "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                        };
+        Level l = new Level(0, room);
+        String[] level = l.setLevel();
         
         sizeX = level.length;
         sizeY = level[0].length();
@@ -71,8 +78,30 @@ public class Display extends drawInterface {
         for (int i = 0 ; i < sizeX ; i++) {
             for (int j = 0 ; j < sizeY ; j++) {
                 String ans = level[i].substring(j, j+1);
-                if (ans.equals("x")) {
+                int x = j*40;
+                int y = i*40;
+                if (i == sizeX || i == 0 || j == 0 || j == sizeY) {
+                    int val = (int)ans.charAt(0) - 65;
+                    if (val > 26) {
+                        val -= 6;
+                    }
+                    blocks.add(new Block(j*40, i*40, 40, 40, 3, val));
+                }
+                else if (ans.equals("x")) {
                     blocks.add(new Block(j*40, i*40, 40, 40));
+                }
+                else if (ans.equals("!")) {
+                    blocks.add(new Block(j*40, i*40, 40, 40, 1));
+                }
+                else if ((int)ans.charAt(0) >= 97 && (int)ans.charAt(0) <= 122 && (i == sizeX || !level[i + 1].substring(j, j + 1).equals("?"))) {
+                    p.chemicals.add(new Chemical((int)ans.charAt(0)-97, x, y+20));
+                }    
+                else if ((int)ans.charAt(0) >= 65 && (int)ans.charAt(0) <= 90) {
+                    robots.add(new Robot ((int)ans.charAt(0)-65, x, y-60));
+                }
+                else if (ans.equals("?")) {
+                    int val = level[i - 1].substring(j, j+1).charAt(0) - 97;
+                    blocks.add(new Block(j*40 - 40, i*40 - 40, 120, 120, 2, val));
                 }
             }
         }
@@ -101,6 +130,18 @@ public class Display extends drawInterface {
         
         
         super.paintComponent(g);
+        
+        
+        
+        /*fill(125, 125, 125, 100, g);
+        strokeWeight(8, g);
+        for (int i = 0 ; i < Math.min(xs.size(), ys.size()) ; i++) {
+            line(0, xs.get(i), 540, xs.get(i), g, 0, 0);
+            line(540, ys.get(i), 1080, ys.get(i), g, 0, 0);
+            line(540, ys.get(i), 540, xs.get(i), g, 0, 0);
+        }
+        
+        strokeWeight(1, g);*/
         
         
         
@@ -140,7 +181,10 @@ public class Display extends drawInterface {
         p.display(g, kb, tx, ty, this, mouse, mm);
         
         
-        
+        if (p.x > sizeY*40 || p.y > sizeX*40 || p.x < 0 || p.y < 0) {
+            room = p.room;
+            setLevel();
+        }
         
         mouse.clicked = false;
         
