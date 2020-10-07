@@ -69,6 +69,10 @@ public class Display extends drawInterface {
     }
     
     public void setLevel() {
+        blocks = new ArrayList<Block>();
+        robots = new ArrayList<Robot>();
+        p.chemicals = new ArrayList<Chemical>();
+        
         Level l = new Level(0, room);
         String[] level = l.setLevel();
         
@@ -80,15 +84,17 @@ public class Display extends drawInterface {
                 String ans = level[i].substring(j, j+1);
                 int x = j*40;
                 int y = i*40;
-                if (i == sizeX || i == 0 || j == 0 || j == sizeY) {
+                if (ans.equals("x")) {
+                    blocks.add(new Block(j*40, i*40, 40, 40));
+                }
+                else if (i == sizeX - 1 || i == 0 || j == 0 || j == sizeY - 1) {
                     int val = (int)ans.charAt(0) - 65;
+                    //System.out.println("hell0");
                     if (val > 26) {
                         val -= 6;
                     }
+                    System.out.println("Goes to room " + val);
                     blocks.add(new Block(j*40, i*40, 40, 40, 3, val));
-                }
-                else if (ans.equals("x")) {
-                    blocks.add(new Block(j*40, i*40, 40, 40));
                 }
                 else if (ans.equals("!")) {
                     blocks.add(new Block(j*40, i*40, 40, 40, 1));
@@ -170,7 +176,7 @@ public class Display extends drawInterface {
         ty = Math.min(ty, lty);
         
         
-        ty = Math.min(ty, rty);
+        //ty = Math.min(ty, rty);
         
         System.out.println(ty + " " + rty);
         System.out.println("end");

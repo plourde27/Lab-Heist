@@ -211,8 +211,12 @@ public class Player extends drawInterface {
         fc++;
         
         for (int i = 0 ; i < d.blocks.size() ; i++) {
+            
             Block b = d.blocks.get(i);
+            
+            
             if (x + w > b.x && x < b.x + b.w && y + h > b.y && y < b.y + b.h) {
+                System.out.println(b.t);
                 if (b.t == 0) {
                 
                     if (ox + w > b.x && ox < b.x + b.w) {
