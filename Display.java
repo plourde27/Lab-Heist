@@ -17,7 +17,7 @@ public class Display extends drawInterface {
     Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     Cursor arrowCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     
-    int room = 0;
+    int room = 4;
     
     int tx, ty;
     int sizeX, sizeY;
@@ -168,15 +168,16 @@ public class Display extends drawInterface {
         int rtx = sizeY*40 - 1080;
         int lty = 0;
         int rty = sizeX*40 - 560;
+        
         tx = p.x - 540;
         tx = Math.max(tx, ltx);
         tx = Math.min(tx, rtx);
         
         ty = p.y - 320;
-        ty = Math.min(ty, lty);
+        ty = Math.max(ty, lty);
         
         
-        //ty = Math.min(ty, rty);
+        ty = Math.min(ty, rty);
         
         System.out.println(ty + " " + rty);
         System.out.println("end");
