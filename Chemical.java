@@ -142,16 +142,18 @@ public class Chemical extends drawInterface {
             y = mm.y - diffY;
         }
         
-        if (x < 25) {
-            x = 25;
-        }
-        
-        if (x > 1055) {
-            x = 1055;
-        }
-        
-        if (y > 670) {
-            y = 670;
+        if (status == 1) {
+            if (x < 25) {
+                x = 25;
+            }
+            
+            if (x > 1055) {
+                x = 1055;
+            }
+            
+            if (y > 670) {
+                y = 670;
+            }
         }
         
         if (y < 560 && status == 1 && !m.pressed) {

@@ -18,6 +18,8 @@ public class Player extends drawInterface {
     
     int fc = 0;
     
+    int healthframe = 0;
+    
     boolean moving = false;
     
     boolean stickr;
@@ -42,7 +44,10 @@ public class Player extends drawInterface {
     int speed;
     int stickx = -1000;
     
+    int health = 100;
+    
     ArrayList<Chemical> chemicals;
+    ArrayList<Chemical> ochemicals;
     
     public Player() {
         x = 500;
@@ -53,6 +58,7 @@ public class Player extends drawInterface {
         speed = 6;
         
         chemicals = new ArrayList<Chemical>();
+        ochemicals = new ArrayList<Chemical>();
         
         effect = -1;
         
@@ -85,6 +91,11 @@ public class Player extends drawInterface {
     }
     
     public void update(Keyboard kb, Display d) {
+        
+        healthframe++;
+        if (healthframe % 24 == 0 && health < 100) {
+            health++;
+        }
         
         timeleft--;
         
@@ -121,7 +132,7 @@ public class Player extends drawInterface {
             for (int i = 0 ; i < d.blocks.size() ; i++) {
                 Block b = d.blocks.get(i);
                 int val = Math.min(Math.abs(b.x - (x+w)), Math.abs(x - (b.x+b.w)));
-                if (b.t == 1 && val < mn) {
+                if (b.t == 1 && val < mn && Math.abs(b.y - y) <= 100) {
                     mn = val;
                     mnx = b.x;
                 }
@@ -216,14 +227,24 @@ public class Player extends drawInterface {
             
             
             if (x + w > b.x && x < b.x + b.w && y + h > b.y && y < b.y + b.h) {
-                System.out.println(b.t);
+                
                 if (b.t == 0) {
                 
                     if (ox + w > b.x && ox < b.x + b.w) {
                         if (vely > 0.0) {
                             y = b.y - h;
+                            if (vely > 15) {
+                                health -= (vely - 15) * 6;
+                                if (health <= 0) {
+                                    die();
+                                }
+                            }
+                            System.out.println(vely);
                             vely = 0;
+                            
                             falling = false;
+                            
+                            
                         }
                         else {
                             y = b.y + b.h;
@@ -264,8 +285,11 @@ public class Player extends drawInterface {
                     }
                 }
                 else if (b.t == 1) {
-                    //y = b.y - b.h;
-                    //vely = 0.1;
+                    health -= 3;
+                    if (health <= 0) {
+                        die(d);
+                        break;
+                    }
                 }  
                 else if (b.t == 3) {
                     room = b.rbt;
@@ -322,5 +346,12 @@ public class Player extends drawInterface {
         for (int i = 0 ; i < chemicals.size() ; i++) {
             chemicals.get(i).display(g, tx, ty, m, mm, d, this);
         }
+    }
+    
+    public void die(Display d) {
+        chemicals = ochemicals;
+        health = 100;
+        x = 50;
+        y = d.sizeX * 40 - 60;
     }
 }

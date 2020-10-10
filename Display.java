@@ -17,7 +17,9 @@ public class Display extends drawInterface {
     Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     Cursor arrowCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     
-    int room = 4;
+    int room = 5;
+    int oroom = room;
+    int stage = 0;
     
     int tx, ty;
     int sizeX, sizeY;
@@ -89,18 +91,16 @@ public class Display extends drawInterface {
                 }
                 else if (i == sizeX - 1 || i == 0 || j == 0 || j == sizeY - 1) {
                     int val = (int)ans.charAt(0) - 65;
-                    //System.out.println("hell0");
                     if (val > 26) {
                         val -= 6;
                     }
-                    System.out.println("Goes to room " + val);
                     blocks.add(new Block(j*40, i*40, 40, 40, 3, val));
                 }
                 else if (ans.equals("!")) {
                     blocks.add(new Block(j*40, i*40, 40, 40, 1));
                 }
                 else if ((int)ans.charAt(0) >= 97 && (int)ans.charAt(0) <= 122 && (i == sizeX || !level[i + 1].substring(j, j + 1).equals("?"))) {
-                    p.chemicals.add(new Chemical((int)ans.charAt(0)-97, x, y+20));
+                    p.chemicals.add(new Chemical((int)ans.charAt(0)-97, x + 20, y+20));
                 }    
                 else if ((int)ans.charAt(0) >= 65 && (int)ans.charAt(0) <= 90) {
                     robots.add(new Robot ((int)ans.charAt(0)-65, x, y-60));
@@ -112,8 +112,41 @@ public class Display extends drawInterface {
             }
         }
         
-        p.x = 50;
-        p.y = sizeX * 40 - 30;
+        int vl = oroom + 65;
+        if (vl > 90) {
+            vl += 6;
+        }
+        char tlet = (char)(vl);
+        
+        for (int i = 0 ; i < sizeX ; i++) {
+            for (int j = 0 ; j < sizeY ; j++) {
+                char ans = level[i].charAt(j);
+                if (ans == tlet) {
+                    p.x = j * 40;
+                    p.y = i * 40;
+                    if (i == sizeX - 1) {
+                        p.y -= 40;
+                    }
+                    else if (i == 0) {
+                        p.y += 40;
+                    }
+                    else if (j == sizeY - 1) {
+                        p.x -= 40;
+                    }
+                    else {
+                        p.x += 40;
+                    }
+                    break;
+                }
+            }
+        }
+        
+        p.ochemicals = new ArrayList<Chemical>();
+        for (int i = 0 ; i < p.chemicals.size() ; i++) {
+            p.ochemicals.add(p.chemicals.get(i));
+        }
+            
+        
         /*blocks.add(new Block(0, 520, 100080, 200));
         blocks.add(new Block(300, 480, 200, 40));
         blocks.add(new Block(700, 380, 200, 40));
@@ -136,6 +169,9 @@ public class Display extends drawInterface {
         
         
         super.paintComponent(g);
+        
+        fill(255, 255, 255, g);
+        rect(540, 360, 1080, 720, g, 0, 0);
         
         
         
@@ -179,16 +215,31 @@ public class Display extends drawInterface {
         
         ty = Math.min(ty, rty);
         
-        System.out.println(ty + " " + rty);
-        System.out.println("end");
-        
         fill(255, 255, 255, g);
         rect(540, 640, 1080, 160, g, 0, 0);
+        
+        fill(0, 0, 0, g);
+        textSize(30, g);
+        text("LAB HEIST", 140, 80, g, 0, 0);
+        text("STAGE " + (stage+1), 350, 80, g, 0, 0);
+        text("ROOM " + (room+1), 530, 80, g, 0, 0);
+        
+        fill(0, 0, 0, g);
+        rect(850, 70, 310, 46, g, 0, 0);
+        fill(255, 255, 255, g);
+        rect(850, 70, 300, 36, g, 0, 0);
+        fill(255, 0, 0, 200, g);
+        rect(700 + (int)(300*(p.health/200.0)), 70, (int)(300*(p.health/100.0)), 36, g, 0, 0);
+        
+        fill(0, 0, 0, g);
+        textSize(21, g);
+        text("Health: " + p.health, 780, 78, g, 0, 0);
         
         p.display(g, kb, tx, ty, this, mouse, mm);
         
         
         if (p.x > sizeY*40 || p.y > sizeX*40 || p.x < 0 || p.y < 0) {
+            oroom = room;
             room = p.room;
             setLevel();
         }
