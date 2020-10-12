@@ -17,16 +17,25 @@ public class Display extends drawInterface {
     Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     Cursor arrowCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     
-    int room = 5;
+    int room = 12;
     int oroom = room;
     int stage = 0;
     
     int tx, ty;
     int sizeX, sizeY;
     
+    int[] stageNum = {13, 0, 0, 0, 0, 0};
+    
     Player p;
     ArrayList<Block> blocks;
     ArrayList<Robot> robots;
+    ArrayList<Chemical> allChemicals;
+    ArrayList<Integer> crooms;
+    ArrayList<Block> allBlocks;
+    ArrayList<Integer> brooms;
+    ArrayList<Robot> allRobots;
+    ArrayList<Integer> rrooms;
+    
     boolean start;
     
     boolean chosen = false;
@@ -46,6 +55,12 @@ public class Display extends drawInterface {
         start = true;
         blocks = new ArrayList<Block>();
         robots = new ArrayList<Robot>();
+        allChemicals = new ArrayList<Chemical>();
+        crooms = new ArrayList<Integer>();
+        allBlocks = new ArrayList<Block>();
+        brooms = new ArrayList<Integer>();
+        allRobots = new ArrayList<Robot>();
+        rrooms = new ArrayList<Integer>();
         for (int i = 0 ; i < 1000 ; i += 20) {
             if (Math.random() < 0.27 && ys.size() >= xs.size()) {
                 xs.add(i);
@@ -70,12 +85,78 @@ public class Display extends drawInterface {
         ty += yy;
     }
     
-    public void setLevel() {
+    public void setStage() {
+        for (int k = 0 ; k < stageNum[stage] ; k++) {
+            Level l = new Level(stage, k);
+            String[] level = l.setLevel();
+            
+            sizeX = level.length;
+            sizeY = level[0].length();
+            
+            System.out.println(k + "  " + sizeX + " " + sizeY);
+            
+            for (int i = 0 ; i < sizeX ; i++) {
+                for (int j = 0 ; j < sizeY ; j++) {
+                    int x = j*40;
+                    int y = i*40;
+                    char ans = level[i].charAt(j);
+                    if (i == 0 || i == sizeX-1 || j == 0 || j == sizeY-1) {
+                    }
+                    else if (!level[i].substring(j, j+1).equals("x") && (int)ans >= 97 && (int)ans <= 122 && (i == sizeX - 1 || !level[i + 1].substring(j, j + 1).equals("?"))) {
+                        allChemicals.add(new Chemical((int)ans-97, x + 20, y+20));
+                        crooms.add(k);
+                    } 
+                    else if ((int)ans >= 65 && (int)ans <= 90) {
+                        allRobots.add(new Robot ((int)ans-65, x, y-60));
+                        rrooms.add(k);
+                    }
+                    else if (level[i].substring(j, j+1).equals("+")) {
+                        
+                        allBlocks.add(new Block(j*40, i*40, 40, 40, 4));
+                        brooms.add(k);
+                    }
+                }
+            }
+        }
+    }
+    
+    public void setLevel(boolean goback) {
         blocks = new ArrayList<Block>();
         robots = new ArrayList<Robot>();
-        p.chemicals = new ArrayList<Chemical>();
         
-        Level l = new Level(0, room);
+        for (int i = p.chemicals.size() - 1 ; i >= 0 ; i--) {
+            if (p.chemicals.get(i).status == 0) {
+                p.chemicals.remove(i);
+            }
+        }
+        
+        for (int i = blocks.size() - 1 ; i >= 0 ; i--) {
+            if (blocks.get(i).t == 4) {
+                blocks.remove(i);
+            }
+        }
+        
+        robots = new ArrayList<Robot>();
+        
+        for (int i = 0 ; i < allChemicals.size() ; i++) {
+            if (crooms.get(i) == room) {
+                p.chemicals.add(allChemicals.get(i));
+            }
+        }
+        
+        for (int i = 0 ; i < allBlocks.size() ; i++) {
+            if (brooms.get(i) == room) {
+                blocks.add(allBlocks.get(i));
+            }
+        }
+        
+        for (int i = 0 ; i < allRobots.size() ; i++) {
+            if (rrooms.get(i) == room) {
+                robots.add(allRobots.get(i));
+            }
+        }
+        
+        Level l = new Level(stage, room);
         String[] level = l.setLevel();
         
         sizeX = level.length;
@@ -99,11 +180,11 @@ public class Display extends drawInterface {
                 else if (ans.equals("!")) {
                     blocks.add(new Block(j*40, i*40, 40, 40, 1));
                 }
-                else if ((int)ans.charAt(0) >= 97 && (int)ans.charAt(0) <= 122 && (i == sizeX || !level[i + 1].substring(j, j + 1).equals("?"))) {
-                    p.chemicals.add(new Chemical((int)ans.charAt(0)-97, x + 20, y+20));
+                else if ((int)ans.charAt(0) >= 97 && (int)ans.charAt(0) <= 122 && (i == sizeX - 1 || !level[i + 1].substring(j, j + 1).equals("?"))) {
+                    //p.chemicals.add(new Chemical((int)ans.charAt(0)-97, x + 20, y+20));
                 }    
                 else if ((int)ans.charAt(0) >= 65 && (int)ans.charAt(0) <= 90) {
-                    robots.add(new Robot ((int)ans.charAt(0)-65, x, y-60));
+                    //robots.add(new Robot ((int)ans.charAt(0)-65, x, y-60));
                 }
                 else if (ans.equals("?")) {
                     int val = level[i - 1].substring(j, j+1).charAt(0) - 97;
@@ -112,11 +193,18 @@ public class Display extends drawInterface {
             }
         }
         
+        if (goback) {
+            return;
+        }
+        
         int vl = oroom + 65;
         if (vl > 90) {
             vl += 6;
         }
         char tlet = (char)(vl);
+        
+        p.x = 60;
+        p.y = sizeX * 40 - 80;
         
         for (int i = 0 ; i < sizeX ; i++) {
             for (int j = 0 ; j < sizeY ; j++) {
@@ -165,6 +253,10 @@ public class Display extends drawInterface {
         robots.add(new Robot(0, 600, 240));*/
     }
     
+    public void setLevel() {
+        setLevel(false);
+    }
+    
     public void paintComponent(Graphics g){
         
         
@@ -188,6 +280,7 @@ public class Display extends drawInterface {
         
         
         if (start) {
+            setStage();
             setLevel();
             start = false;
         }

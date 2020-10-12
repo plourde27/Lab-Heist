@@ -18,9 +18,16 @@ public class Player extends drawInterface {
     
     int fc = 0;
     
+    boolean firstFall = true;
+    
     int healthframe = 0;
     
     boolean moving = false;
+    
+    int lx = 0;
+    int ly = 0;
+    int mxax = 0;
+    int mnax = 0;
     
     boolean stickr;
     boolean sticking;
@@ -45,6 +52,10 @@ public class Player extends drawInterface {
     int stickx = -1000;
     
     int health = 100;
+    
+    int savedRoom = 0;
+    int savedX = 40;
+    int savedY = 400;
     
     ArrayList<Chemical> chemicals;
     ArrayList<Chemical> ochemicals;
@@ -107,6 +118,9 @@ public class Player extends drawInterface {
         if (effect == 0) {
             speed = 12;
         }
+        else if (effect == 3) {
+            speed = 10;
+        }
         else {
             speed = 6;
         }
@@ -126,6 +140,8 @@ public class Player extends drawInterface {
         }
         
         int mnx = -1;
+        
+        
         
         if (effect == 1 && !moving) {
             int mn = 1000000000;
@@ -150,6 +166,7 @@ public class Player extends drawInterface {
         
         if (kb.keys[UP] && !falling && effect != 2) {
             falling = true;
+            firstFall = true;
             vely = -11;
         }
         
@@ -218,13 +235,23 @@ public class Player extends drawInterface {
         
         boolean first = true;
         
-        
+        System.out.println(firstFall);
         fc++;
         
         for (int i = 0 ; i < d.blocks.size() ; i++) {
             
             Block b = d.blocks.get(i);
             
+            if (b.t == 4) {
+                if (((ox < b.x + 20 && x > b.x + 20) || (ox > b.x + 20 && x < b.x + 20)) && y >= b.y - 60 && y <= b.y + 40) {
+                    b.on = true;
+                    savedX = x;
+                    savedY = y;
+                    savedRoom = d.room;
+                }
+            }
+            
+            boolean seenb = false;
             
             if (x + w > b.x && x < b.x + b.w && y + h > b.y && y < b.y + b.h) {
                 
@@ -236,10 +263,27 @@ public class Player extends drawInterface {
                             if (vely > 15) {
                                 health -= (vely - 15) * 6;
                                 if (health <= 0) {
-                                    die();
+                                    die(d);
                                 }
                             }
-                            System.out.println(vely);
+                            if (!seenb && effect == 3) {
+                                if (firstFall) {
+                                    firstFall = false;
+                                    mnax = x;
+                                    mxax = x;
+                                }
+                                else {
+                                    d.blocks.remove(d.blocks.size() - 1);
+                                }
+                                
+                                mnax = Math.min(mnax, x);
+                                mxax = Math.max(mxax, x);
+                                
+                                
+                                d.blocks.add(new Block(mnax, y + 10, mxax - mnax + 30, 20, 1));
+                                
+                                seenb = true;
+                            }
                             vely = 0;
                             
                             falling = false;
@@ -284,7 +328,7 @@ public class Player extends drawInterface {
                         }
                     }
                 }
-                else if (b.t == 1) {
+                else if (b.t == 1 && effect != 3) {
                     health -= 3;
                     if (health <= 0) {
                         die(d);
@@ -349,9 +393,15 @@ public class Player extends drawInterface {
     }
     
     public void die(Display d) {
-        chemicals = ochemicals;
+        for (int i = 0 ; i < d.allChemicals.size() ; i++) {
+            d.allChemicals.get(i).status = 0;
+        }
+        
+        d.room = savedRoom;
+        x = savedX;
+        y = savedY;
+        d.setLevel(true);
         health = 100;
-        x = 50;
-        y = d.sizeX * 40 - 60;
+        effect = -1;
     }
 }

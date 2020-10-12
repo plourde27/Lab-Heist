@@ -11,6 +11,7 @@ public class Block extends drawInterface {
     int x, y, w, h;
     int t = 0;
     int rbt = -1;
+    boolean on = false;
     
     public Block(int xx, int yy, int ww, int hh) {
         x = xx;
@@ -38,6 +39,20 @@ public class Block extends drawInterface {
     
     public void draw(Graphics g, int tx, int ty) {
         if (t == 3) {
+            return;
+        }
+        
+        if (t == 4) {
+            fill(0, 0, 0, g);
+            rect(x + 20, y - 10, 6, 100, g, tx, ty);
+            fill(255, 0, 0, g);
+            if (on) {
+                fill(0, 240, 0, g);
+            }
+            vertex(x + 23, y - 60);
+            vertex(x + 52, y - 45);
+            vertex(x + 23, y - 30);
+            endShape(g, tx, ty);
             return;
         }
         
