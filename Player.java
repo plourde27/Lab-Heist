@@ -175,15 +175,7 @@ public class Player extends drawInterface {
         
         ox = x;
         
-        if (kb.keys[UP] && sticking && (effect == 2 || effect == 4)) {
-            y -= 3;
-            if (y < stickly) {
-                y = stickly;
-            }
-            if (y > stickhy) {
-                y = stickhy;
-            }
-        }
+        System.out.println(sticking);
         if (sticking && (effect == 2 || effect == 4)) {
             vely = 0;
             if (stickr && !kb.keys[LEFT]) {
@@ -196,8 +188,20 @@ public class Player extends drawInterface {
             }
         }
         
+        if (kb.keys[UP] && sticking && (effect == 2 || effect == 4)) {
+            y -= 2;
+            vely = -2;
+            if (y < stickly) {
+                y = stickly;
+            }
+            if (y > stickhy) {
+                y = stickhy;
+            }
+        }
+        
         if (kb.keys[DOWN] && sticking && effect == 2) {
-            y += 3;
+            y += 2;
+            vely = 2;
             if (y < stickly) {
                 y = stickly;
             }
