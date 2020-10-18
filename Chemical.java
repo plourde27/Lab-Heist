@@ -9,8 +9,10 @@ import java.lang.Math.*;
 
 public class Chemical extends drawInterface {
     int id;
+    int oid;
     int map[][];
     int x, y;
+    int ox, oy;
     int status;
     boolean dragging;
     int diffX;
@@ -27,6 +29,7 @@ public class Chemical extends drawInterface {
     
     public Chemical(int idd, int xx, int yy) {
         id = idd;
+        oid = id;
         /*0 = Red
           1 = Green
           2 = Blue
@@ -56,6 +59,8 @@ public class Chemical extends drawInterface {
         
         x = xx;
         y = yy;
+        ox = x;
+        oy = y;
         
         dragging = false;
         

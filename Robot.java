@@ -107,6 +107,10 @@ public class Robot extends drawInterface {
                 p.die(d);
             }
             
+            if (p.x + 15 >= this.x - 12 && p.x - 15 <= this.x + 12 && p.y + 15 >= this.y - 22 && p.y - 15 <= this.y + 75) {
+                p.die(d);
+            }
+            
             y += vely;
             vely += 0.35;
             for (int i = 0 ; i < d.blocks.size() ; i++) {

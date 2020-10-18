@@ -235,7 +235,6 @@ public class Player extends drawInterface {
         
         boolean first = true;
         
-        System.out.println(firstFall);
         fc++;
         
         for (int i = 0 ; i < d.blocks.size() ; i++) {
@@ -243,7 +242,7 @@ public class Player extends drawInterface {
             Block b = d.blocks.get(i);
             
             if (b.t == 4) {
-                if (((ox < b.x + 20 && x > b.x + 20) || (ox > b.x + 20 && x < b.x + 20)) && y >= b.y - 60 && y <= b.y + 40) {
+                if (((ox <= b.x + 20 && x >= b.x + 20) || (ox >= b.x + 20 && x <= b.x + 20)) && y >= b.y - 60 && y <= b.y + 40) {
                     b.on = true;
                     savedX = x;
                     savedY = y;
@@ -395,6 +394,9 @@ public class Player extends drawInterface {
     public void die(Display d) {
         for (int i = 0 ; i < d.allChemicals.size() ; i++) {
             d.allChemicals.get(i).status = 0;
+            d.allChemicals.get(i).x = d.allChemicals.get(i).ox;
+            d.allChemicals.get(i).y = d.allChemicals.get(i).oy;
+            d.allChemicals.get(i).id = d.allChemicals.get(i).oid;
         }
         
         d.room = savedRoom;

@@ -17,14 +17,14 @@ public class Display extends drawInterface {
     Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     Cursor arrowCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     
-    int room = 12;
+    int room = 14;
     int oroom = room;
     int stage = 0;
     
     int tx, ty;
     int sizeX, sizeY;
     
-    int[] stageNum = {13, 0, 0, 0, 0, 0};
+    int[] stageNum = {15, 0, 0, 0, 0, 0};
     
     Player p;
     ArrayList<Block> blocks;
@@ -140,6 +140,7 @@ public class Display extends drawInterface {
         
         for (int i = 0 ; i < allChemicals.size() ; i++) {
             if (crooms.get(i) == room) {
+                System.out.println(i);
                 p.chemicals.add(allChemicals.get(i));
             }
         }
