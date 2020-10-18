@@ -97,11 +97,14 @@ public class Robot extends drawInterface {
                 p.die(d);
             }
             
-            if (p.effect == 1 && Math.sqrt(Math.pow(p.x+p.w/2-x,2)+Math.pow(p.y+p.h/2-y,2)) < 75) {
+            if ((p.effect == 1 || p.effect == 3) && Math.sqrt(Math.pow(p.x+p.w/2-x,2)+Math.pow(p.y+p.h/2-y,2)) < 75) {
                 die();
             }
         }
         else if (type == 1) {
+            if ((p.effect == 3) && Math.sqrt(Math.pow(p.x+p.w/2-x,2)+Math.pow(p.y+p.h/2-y,2)) < 75) {
+                die();
+            }
             //System.out.println(lx + " " + rx + " " + (p.x > lx && p.x < rx));
             if (p.x > lx && p.x < rx && p.y + p.h >= y - 21 && p.y <= y - 5) {
                 p.die(d);
@@ -113,13 +116,15 @@ public class Robot extends drawInterface {
             
             y += vely;
             vely += 0.35;
+            //System.out.println(vely);
             for (int i = 0 ; i < d.blocks.size() ; i++) {
                 if (x + 12 >= d.blocks.get(i).x && x - 12 <= d.blocks.get(i).x + d.blocks.get(i).w && y + 75 >= d.blocks.get(i).y && y - 22 <= d.blocks.get(i).y + d.blocks.get(i).h) {
                     y = d.blocks.get(i).y - 75;
+                    //System.out.println("HELLO!");
                     vely = 0;
                 }
-                
             }
+            
             if (laserFrame % 500 <= 200) {
                 int mxx = 0;
                 for (int i = 0 ; i < d.blocks.size() ; i++) {

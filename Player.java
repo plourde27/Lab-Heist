@@ -121,6 +121,9 @@ public class Player extends drawInterface {
         else if (effect == 3) {
             speed = 10;
         }
+        else if (effect == 4) {
+            speed = 13;
+        }
         else {
             speed = 6;
         }
@@ -172,7 +175,7 @@ public class Player extends drawInterface {
         
         ox = x;
         
-        if (kb.keys[UP] && sticking && effect == 2) {
+        if (kb.keys[UP] && sticking && (effect == 2 || effect == 4)) {
             y -= 3;
             if (y < stickly) {
                 y = stickly;
@@ -181,7 +184,7 @@ public class Player extends drawInterface {
                 y = stickhy;
             }
         }
-        if (sticking && effect == 2) {
+        if (sticking && (effect == 2 || effect == 4)) {
             vely = 0;
             if (stickr && !kb.keys[LEFT]) {
                 x += 3;
