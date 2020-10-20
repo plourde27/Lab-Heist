@@ -20,13 +20,14 @@ public class Robot extends drawInterface {
     int laserFrame = 0;
     int lx = 0;
     int rx = 0;
+    int dir = 0;
     
     
     public Robot(int t, int xx, int yy) {
         //0 = patrol robot
-        //1 = watchman robot
-        //2 = fast patrol robot
-        //3 = spider robot
+        //1 = laser robot
+        //2 = spider robot
+        //3 = guard robot
         //4 = drone robot
         //5 = bug spy robot
         
@@ -36,9 +37,24 @@ public class Robot extends drawInterface {
         mode = -1;
     }
     
+    public Robot(int t, int xx, int yy, int d) {
+        //0 = patrol robot
+        //1 = laser robot
+        //2 = spider robot
+        //3 = guard robot
+        //4 = drone robot
+        //5 = bug spy robot
+        
+        type = t;
+        x = xx;
+        y = yy;
+        mode = -1;
+        dir = d;
+    }
+    
     public void draw(Graphics g, Player p, Display d, int tx, int ty) {
         if (type == 1) {
-            fill(200, 200, 0, 80, g);
+            fill(200, 200, 0, (int)(80 * (fade / 255.0)), g);
             rect((int)((lx+rx)/2), y - 13, rx - lx, 17, g, tx, ty);
         }
         
@@ -49,10 +65,31 @@ public class Robot extends drawInterface {
             fill(0, 0, 200, fade, g);
         }
         
-        rect((int)x, y - 13, 17, 17, g, tx, ty);
-        rect((int)x, y, 10, 10, g, tx, ty);
-        rect((int)x, y + 25, 23, 40, g, tx, ty);
-        rect((int)x, y + 60, 8, 30, g, tx, ty); //x - 12, x + 12, y - 22, y + 75
+        if (type == 2) {
+            fill(180, 0, 0, fade, g);
+            if (dir == -1) {
+                rect((int)x + 10, y + 44, 20, 3, g, tx, ty);
+                rect((int)x + 10, y + 55, 20, 3, g, tx, ty);
+                rect((int)x + 10, y + 65, 20, 3, g, tx, ty);
+                rect((int)x + 10, y + 76, 20, 3, g, tx, ty);
+            }
+            else {
+                rect((int)x + 30, y + 44, 20, 3, g, tx, ty);
+                rect((int)x + 30, y + 55, 20, 3, g, tx, ty);
+                rect((int)x + 30, y + 65, 20, 3, g, tx, ty);
+                rect((int)x + 30, y + 76, 20, 3, g, tx, ty);
+            }
+            fill(40, 0, 0, fade, g);
+            ellipse((int)x + 20, y + 60, 30, 45, g, tx, ty);
+            
+        }
+        
+        if (type != 2) {
+            rect((int)x, y - 13, 17, 17, g, tx, ty);
+            rect((int)x, y, 10, 10, g, tx, ty);
+            rect((int)x, y + 25, 23, 40, g, tx, ty);
+            rect((int)x, y + 60, 8, 30, g, tx, ty); //x - 12, x + 12, y - 22, y + 75
+        }
     }
     
     public void update(Player p, Display d) {
@@ -110,7 +147,7 @@ public class Robot extends drawInterface {
                 p.die(d);
             }
             
-            if (p.x + 15 >= this.x - 12 && p.x - 15 <= this.x + 12 && p.y + 15 >= this.y - 22 && p.y - 15 <= this.y + 75) {
+            if (p.x + 15 >= this.x - 12 && p.x - 15 <= this.x + 12 && p.y + 15 >= this.y - 22 && p.y - 15 <= this.y + 75 && (p.effect != 3)) {
                 p.die(d);
             }
             
@@ -151,6 +188,27 @@ public class Robot extends drawInterface {
             else {
                 lx = 0;
                 rx = 0;
+            }
+        }
+        else if (type == 2) {
+            int py = y;
+            System.out.println(x);
+            y += 1 * mode;
+            boolean found = false;
+            for (int i = 0 ; i < d.blocks.size() ; i++) {
+                if (Math.abs(x - d.blocks.get(i).x) <= 5 && y + 38 <= d.blocks.get(i).y + d.blocks.get(i).h && y + 82 >= d.blocks.get(i).y) {
+                    if (d.blocks.get(i).t == 1) {
+                        die();
+                    }
+                    if (!(py + 38 <= d.blocks.get(i).y + d.blocks.get(i).h && py + 82 >= d.blocks.get(i).y)) {
+                        found = true;
+                        y = py;
+                    }
+                }
+                
+            }
+            if (found) {
+                mode = -mode;
             }
         }
     }

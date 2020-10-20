@@ -17,14 +17,14 @@ public class Display extends drawInterface {
     Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     Cursor arrowCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     
-    int room = 15;
+    int room = 17;
     int oroom = room;
     int stage = 0;
     
     int tx, ty;
     int sizeX, sizeY;
     
-    int[] stageNum = {16, 0, 0, 0, 0, 0};
+    int[] stageNum = {18, 0, 0, 0, 0, 0};
     
     Player p;
     ArrayList<Block> blocks;
@@ -107,7 +107,11 @@ public class Display extends drawInterface {
                         crooms.add(k);
                     } 
                     else if ((int)ans >= 65 && (int)ans <= 90) {
-                        allRobots.add(new Robot ((int)ans-65, x, y-50));
+                        int vl = 1;
+                        if (level[i].charAt(j+1) != 'x') {
+                            vl = -1;
+                        }
+                        allRobots.add(new Robot ((int)ans-65, x, y-50, vl));
                         rrooms.add(k);
                     }
                     else if (level[i].substring(j, j+1).equals("+")) {
@@ -153,6 +157,9 @@ public class Display extends drawInterface {
         
         for (int i = 0 ; i < allRobots.size() ; i++) {
             if (rrooms.get(i) == room) {
+                allRobots.get(i).dead = false;
+                allRobots.get(i).fade = 255;
+                System.out.println(i);
                 robots.add(allRobots.get(i));
             }
         }
