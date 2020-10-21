@@ -17,14 +17,14 @@ public class Display extends drawInterface {
     Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     Cursor arrowCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     
-    int room = 18;
+    int room = 26;
     int oroom = room;
     int stage = 0;
     
     int tx, ty;
     int sizeX, sizeY;
     
-    int[] stageNum = {19, 0, 0, 0, 0, 0};
+    int[] stageNum = {27, 0, 0, 0, 0, 0};
     
     Player p;
     ArrayList<Block> blocks;

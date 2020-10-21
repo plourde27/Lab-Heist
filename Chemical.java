@@ -11,6 +11,7 @@ public class Chemical extends drawInterface {
     int id;
     int oid;
     int map[][];
+    int rec[][];
     int x, y;
     int ox, oy;
     int status;
@@ -42,9 +43,11 @@ public class Chemical extends drawInterface {
         int MX = 100;
         
         map = new int[MX][MX];
+        rec = new int[MX][MX];
         for (int i = 0 ; i < MX ; i++) {
             for (int j = 0 ; j < MX ; j++){
                 map[i][j] = -1;
+                rec[i][j] = -1;
             }
         }
         

@@ -134,7 +134,7 @@ public class Robot extends drawInterface {
                 p.die(d);
             }
             
-            if ((p.effect == 1 || p.effect == 3) && Math.sqrt(Math.pow(p.x+p.w/2-x,2)+Math.pow(p.y+p.h/2-y,2)) < 75) {
+            if ((p.effect == 1 || p.effect == 3 || p.effect == 5) && Math.sqrt(Math.pow(p.x+p.w/2-x,2)+Math.pow(p.y+p.h/2-y,2)) < 75) {
                 die();
             }
         }
