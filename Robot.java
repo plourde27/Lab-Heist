@@ -210,6 +210,17 @@ public class Robot extends drawInterface {
             if (found) {
                 mode = -mode;
             }
+            
+            if (p.x + 30 >= x + 5 && p.x <= x + 35 && p.y + 30 >= y + 38 && p.y <= y + 82) {
+                //System.out.println("COLLIDING WITH EFFECT " + p.effect);
+                if (p.effect == 5) {
+                    this.die();
+                }
+                else {
+                    p.die(d);
+                }
+            }
+
         }
     }
     

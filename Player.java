@@ -82,7 +82,7 @@ public class Player extends drawInterface {
             wid = (int) ((((double)timeleft) / mx) * 1080);
         }
         
-        if (effect == 1) {
+        if (effect == 1 || effect == 5) {
             fill(0, 200, 0, 50, g);
             ellipse(x+w/2, y+h/2, 150, 150, g, tx, ty);
         }
@@ -176,7 +176,7 @@ public class Player extends drawInterface {
         ox = x;
         
         System.out.println(sticking);
-        if (sticking && (effect == 2 || effect == 4)) {
+        if (sticking && (effect == 2 || effect == 4 || effect == 5)) {
             vely = 0;
             if (stickr && !kb.keys[LEFT]) {
                 x += 3;
@@ -188,7 +188,7 @@ public class Player extends drawInterface {
             }
         }
         
-        if (kb.keys[UP] && sticking && (effect == 2 || effect == 4)) {
+        if (kb.keys[UP] && sticking && (effect == 2 || effect == 4 || effect == 5)) {
             y -= 2;
             vely = -2;
             if (y < stickly) {
@@ -199,7 +199,7 @@ public class Player extends drawInterface {
             }
         }
         
-        if (kb.keys[DOWN] && sticking && effect == 2) {
+        if (kb.keys[DOWN] && sticking && (effect == 2 || effect == 4 || effect == 5)) {
             y += 2;
             vely = 2;
             if (y < stickly) {
