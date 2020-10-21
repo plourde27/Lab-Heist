@@ -167,7 +167,7 @@ public class Player extends drawInterface {
             }
         }
         
-        if (kb.keys[UP] && !falling && effect != 2) {
+        if (kb.keys[UP] && !falling && effect != 2 && effect != 5) {
             falling = true;
             firstFall = true;
             vely = -11;
