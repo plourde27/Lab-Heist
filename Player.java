@@ -124,6 +124,9 @@ public class Player extends drawInterface {
         else if (effect == 4) {
             speed = 13;
         }
+        else if (effect == 6) {
+            speed = 9;
+        }
         else {
             speed = 6;
         }
@@ -167,15 +170,24 @@ public class Player extends drawInterface {
             }
         }
         
-        if (kb.keys[UP] && !falling && effect != 2 && effect != 5) {
+        if (kb.keys[UP] && !falling && effect != 2 && effect != 5 && effect != 6) {
             falling = true;
             firstFall = true;
             vely = -11;
         }
         
+        if (effect == 6) {
+            vely = 0;
+        }
+        if (kb.keys[UP] && effect == 6) {
+            vely = -speed;
+        }
+        if (kb.keys[DOWN] && effect == 6) {
+            vely = speed;
+        }
+        
         ox = x;
         
-        System.out.println(sticking);
         if (sticking && (effect == 2 || effect == 4 || effect == 5)) {
             vely = 0;
             if (stickr && !kb.keys[LEFT]) {
@@ -212,10 +224,10 @@ public class Player extends drawInterface {
         
         
         oy = y;
-        
-        vely += 0.37;
+        if (effect != 6) {
+            vely += 0.37;
+        }
         y += vely;
-        
         x += velx;
         
         

@@ -19,6 +19,8 @@ public class Chemical extends drawInterface {
     int diffX;
     int diffY;
     int circSize;
+    int oox = 0;
+    int ooy = 0;
     
     int col1[];
     int col2[];
@@ -54,9 +56,17 @@ public class Chemical extends drawInterface {
         map[0][1] = 3;
         map[0][2] = 4;
         map[1][2] = 5;
-        map[3][2] = 6;
-        map[4][1] = 6;
-        map[5][0] = 6;
+        map[2][3] = 6;
+        map[1][4] = 6;
+        map[0][5] = 6;
+        
+        rec[0][1] = 8;
+        rec[0][2] = 15;
+        rec[1][2] = 18;
+        rec[2][3] = 26;
+        rec[1][4] = 26;
+        rec[0][5] = 26;
+        
         
         status = 0;
         
@@ -73,11 +83,12 @@ public class Chemical extends drawInterface {
         col2 = RED;
     }
     
-    public int mix(Chemical other) {
-        if (map[id][other.id] != -1) {
+    public int mix(Chemical other, Display d) {
+        //System.out.println("MIXING " + id + " " + other.id);
+        if (map[id][other.id] != -1 && rec[id][other.id] != -1 && rec[id][other.id] <= d.room) {
             return map[id][other.id];
         }
-        if (map[other.id][id] != -1) {
+        if (map[other.id][id] != -1 && rec[other.id][id] != -1 && rec[id][other.id] <= d.room) {
             return map[other.id][id];
         }
         return -1;
@@ -109,8 +120,8 @@ public class Chemical extends drawInterface {
             col2 = BLUE;
         }
         else if (id == 6) {
-            col1 = WHITE;
-            col2 = WHITE;
+            col1 = new int[]{0, 125, 200};
+            col2 = new int[]{0, 125, 200};
         }
         
         circSize += 10;
@@ -135,7 +146,13 @@ public class Chemical extends drawInterface {
                     if (c2 == this) continue;
                     if (c2.status != 1) continue;
                     if (Math.sqrt((x-c2.x)*(x-c2.x)+(y-c2.y)*(y-c2.y)) <= 25) {
-                        c2.id = mix(c2);
+                        int id = mix(c2, d);
+                        if (id == -1) {
+                            x = oox;
+                            y = ooy;
+                            break;
+                        }
+                        c2.id = id;
                         p.chemicals.remove(p.chemicals.indexOf(this));
                         break;
                     }
@@ -148,6 +165,13 @@ public class Chemical extends drawInterface {
         if (dragging) {
             x = mm.x - diffX;
             y = mm.y - diffY;
+        }
+        else {
+            if (id == 0) {
+                //System.out.println(Math.random());
+            }
+            oox = x;
+            ooy = y;
         }
         
         if (status == 1) {

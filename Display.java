@@ -17,14 +17,14 @@ public class Display extends drawInterface {
     Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     Cursor arrowCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     
-    int room = 26;
+    int room = 27;
     int oroom = room;
     int stage = 0;
     
     int tx, ty;
     int sizeX, sizeY;
     
-    int[] stageNum = {27, 0, 0, 0, 0, 0};
+    int[] stageNum = {29, 0, 0, 0, 0, 0};
     
     Player p;
     ArrayList<Block> blocks;
@@ -143,7 +143,7 @@ public class Display extends drawInterface {
         robots = new ArrayList<Robot>();
         
         for (int i = 0 ; i < allChemicals.size() ; i++) {
-            if (crooms.get(i) == room) {
+            if (crooms.get(i) == room && allChemicals.get(i).status == 0) {
                 System.out.println(i);
                 p.chemicals.add(allChemicals.get(i));
             }
@@ -210,6 +210,7 @@ public class Display extends drawInterface {
             vl += 6;
         }
         char tlet = (char)(vl);
+        System.out.println("TARGET: " + tlet);
         
         p.x = 60;
         p.y = sizeX * 40 - 80;
@@ -218,8 +219,10 @@ public class Display extends drawInterface {
             for (int j = 0 ; j < sizeY ; j++) {
                 char ans = level[i].charAt(j);
                 if (ans == tlet) {
-                    p.x = j * 40;
-                    p.y = i * 40;
+                    if (i == sizeX - 1 || i == 0 || j == sizeY - 1 || j == 0) {
+                        p.x = j * 40;
+                        p.y = i * 40;
+                    }
                     if (i == sizeX - 1) {
                         p.y -= 40;
                     }
