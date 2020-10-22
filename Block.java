@@ -42,6 +42,12 @@ public class Block extends drawInterface {
             return;
         }
         
+        if (t == 5) {
+            fill(200, 50, 0, 200, g);
+            rect(x + w/2, y + w/2, 4, 40, g, tx, ty);
+            return;
+        }
+        
         if (t == 4) {
             fill(0, 0, 0, g);
             rect(x + 20, y - 10, 6, 100, g, tx, ty);

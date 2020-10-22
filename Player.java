@@ -356,6 +356,9 @@ public class Player extends drawInterface {
                 else if (b.t == 3) {
                     room = b.rbt;
                 }
+                else if (b.t == 5) {
+                    d.selfdestruct = true;
+                }
             }
         }
         

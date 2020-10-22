@@ -17,14 +17,14 @@ public class Display extends drawInterface {
     Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     Cursor arrowCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     
-    int room = 27;
+    int room = 30;
     int oroom = room;
     int stage = 0;
     
     int tx, ty;
     int sizeX, sizeY;
     
-    int[] stageNum = {29, 0, 0, 0, 0, 0};
+    int[] stageNum = {31, 0, 0, 0, 0, 0};
     
     Player p;
     ArrayList<Block> blocks;
@@ -39,6 +39,10 @@ public class Display extends drawInterface {
     boolean start;
     
     boolean chosen = false;
+    
+    boolean selfdestruct = false;
+    
+    double sec = 300.0;
     
     ArrayList<Integer> xs = new ArrayList<Integer>();
     ArrayList<Integer> ys = new ArrayList<Integer>();
@@ -198,6 +202,9 @@ public class Display extends drawInterface {
                     int val = level[i - 1].substring(j, j+1).charAt(0) - 97;
                     blocks.add(new Block(j*40 - 40, i*40 - 40, 120, 120, 2, val));
                 }
+                else if (ans.equals("/")) {
+                    blocks.add(new Block(j*40, i*40, 40, 40, 5));
+                }
             }
         }
         
@@ -212,7 +219,7 @@ public class Display extends drawInterface {
         char tlet = (char)(vl);
         System.out.println("TARGET: " + tlet);
         
-        p.x = 60;
+        p.x = 3440;
         p.y = sizeX * 40 - 80;
         
         for (int i = 0 ; i < sizeX ; i++) {
@@ -272,6 +279,8 @@ public class Display extends drawInterface {
         
         
         super.paintComponent(g);
+        
+        sec -= 0.01;
         
         fill(255, 255, 255, g);
         rect(540, 360, 1080, 720, g, 0, 0);
@@ -338,6 +347,18 @@ public class Display extends drawInterface {
         fill(0, 0, 0, g);
         textSize(21, g);
         text("Health: " + p.health, 780, 78, g, 0, 0);
+        
+        if (selfdestruct) {
+            fill(0, 0, 0, g);
+            textSize(30, g);
+            text("SELF-DESTRUCT SEQUENCE INITIATED!", 300, 135, g, 0, 0);
+            fill(255, 0, 0, g);
+            textSize(24, g);
+            text("THE LAB WILL SELF-DESTRUCT IN " + (int)sec + " SECONDS", 310, 170, g, 0, 0);
+        }
+        else {
+            sec = 300;
+        }
         
         p.display(g, kb, tx, ty, this, mouse, mm);
         
