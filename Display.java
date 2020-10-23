@@ -24,7 +24,7 @@ public class Display extends drawInterface {
     int tx, ty;
     int sizeX, sizeY;
     
-    int[] stageNum = {31, 0, 0, 0, 0, 0};
+    int[] stageNum = {35, 0, 0, 0, 0, 0};
     
     Player p;
     ArrayList<Block> blocks;
