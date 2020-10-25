@@ -52,7 +52,7 @@ public class Level {
 "x......xx.........x....x.....x",
 "x......xxxx..................x",
 "A.....xxxxxxx................x",
-"A....xxxxxxxxx..x............x",
+"A.+..xxxxxxxxx..x............x",
 "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 }, //room 2
 
@@ -69,7 +69,7 @@ public class Level {
 "x......xxxxx.......xxxx......x",
 "x.....xxxxxx.......xxxxx.....x",
 "B...xxxxxxxx.......xxxxx.....D",
-"B..xxxxxxxxx!!!!!!!xxxxxxx...D",
+"B.+xxxxxxxxx!!!!!!!xxxxxxx...D",
 "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 }, //room 3
 
@@ -83,9 +83,9 @@ public class Level {
 "x......................................x",
 "x......................................x",
 "x......................................x",
-"x....c.......a.........................x",
-"C....?.........x!!!!!!!!!!!!!!!x.......E",
-"C..........xxxxx!!!!!!!!!!!!!!!xxxxx...E",
+"x.....c......a.........................x",
+"C.....?........x!!!!!!!!!!!!!!!x.......E",
+"C.+........xxxxx!!!!!!!!!!!!!!!xxxxx...E",
 "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 }, //room 4
                           

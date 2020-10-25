@@ -17,7 +17,7 @@ public class Display extends drawInterface {
     Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     Cursor arrowCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     
-    int room = 0;
+    int room = 8;
     int oroom = room;
     int stage = 0;
     
