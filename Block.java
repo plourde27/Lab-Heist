@@ -72,16 +72,22 @@ public class Block extends drawInterface {
             
             switch (rbt) {
                 case 0:
-                    fill(125, 125, 125, g);
+                    fill(200, 200, 200, g);
                     textSize(30, g);
                     text("LAB", x + 30, y + 55, g, tx, ty);
                     text("HEIST", x + 20, y + 85, g, tx, ty);
+                    break;
+                case 1:
+                    fill(200, 200, 200, g);
+                    textSize(12, g);
+                    text("Use the arrow", x + 19, y + 53, g, tx, ty);
+                    text("keys to move", x + 20, y + 74, g, tx, ty);
+
                     break;
             }
             
             return;
         }
-        
         
         fill(0, 0, 0, g);
         if (t == 1) {

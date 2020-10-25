@@ -17,7 +17,7 @@ public class Display extends drawInterface {
     Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     Cursor arrowCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     
-    int room = 30;
+    int room = 0;
     int oroom = room;
     int stage = 0;
     
@@ -219,7 +219,7 @@ public class Display extends drawInterface {
         char tlet = (char)(vl);
         System.out.println("TARGET: " + tlet);
         
-        p.x = 3440;
+        p.x = 120;
         p.y = sizeX * 40 - 80;
         
         for (int i = 0 ; i < sizeX ; i++) {
