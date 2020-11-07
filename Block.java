@@ -63,6 +63,10 @@ public class Block extends drawInterface {
         }
         
         if (t == 2) {
+            int cx = x + w/2;
+            int cy = y + h/2;
+            
+            
             fill(200, 180, 150, 255, g);
             rect(x + w/2, y + h/2, w - 20, h - 20, g, tx, ty);
             rect(x + w/2 - 30, y + h - 20, 5, 40, g, tx, ty);
@@ -88,7 +92,7 @@ public class Block extends drawInterface {
                     w = 240;
                     fill(200, 200, 200, g);
                     textSize(11, g);
-                    text("Pick up potions, and drag them into", x + 26, y + 35, g, tx, ty);
+                    text("Pick up chemicals, and drag them into", x + 26, y + 35, g, tx, ty);
                     text("the main game area to use them.", x + 26, y + 55, g, tx, ty);
 
                     drawChemical(x + 55, y + 87, g, 255, 0, 0, tx, ty);
@@ -105,9 +109,10 @@ public class Block extends drawInterface {
                 case 3:
                     w = 140;
                     fill(200, 200, 200, g);
-                    textSize(16, g);
-                    text("Watch out", x + 31, y + 56, g, tx, ty);
-                    text("for robots!", x + 31, y + 76, g, tx, ty);
+                    textFont("Monaco", 15, g);
+                    //text("Watch out", x + 31, y + h/2, g, tx, ty);
+                    //text("for robots!", x + 31, y + 76, g, tx, ty);
+                    ntext(" Watch out \\ for robots!", cx, cy, g, tx, ty);
                     break;
                 case 4:
                     w = 240;
@@ -130,6 +135,63 @@ public class Block extends drawInterface {
                     line((int)(x + 150 - 30 * Math.cos(Math.PI/4)), (int)(y + yf - 30 * Math.sin(Math.PI/4)), (int)(x + 150 + 30 * Math.cos(Math.PI/4)), (int)(y + yf + 30 * Math.sin(Math.PI/4)), g, tx, ty);
                     strokeWeight(1, g);
                     drawBot(x + 150, y + 48, 0.4, g, tx, ty);
+                    break;
+                case 5:
+                    cx = x + w/2;
+                    w = 240;
+                    fill(200, 200, 200, g);
+                    textFont("Monaco", 11, g);
+                    ntext("Blue chemicals allow you to\\ climb walls, but not jump.", cx, cy - 25, g, tx, ty);
+                    drawChemical(x + 50, y + 84, g, 0, 0, 255, tx, ty);
+                    fill(0, 0, 0, g);
+                    line(x + 103, y + 74, x + 125, y + 74, g, tx, ty);
+                    line(x + 103, y + 85, x + 125, y + 85, g, tx, ty);
+                    fill(255, 0, 0, g);
+                    rect(x + 170, y + 80, 20, 20, g, tx, ty);
+                    fill(0, 0, 0,g);
+                    rect(x + 190, y + 80, 20, 40, g, tx, ty);
+                    break;
+                case 6:
+                    w = 320;
+                    fill(200, 200, 200, g);
+                    textFont("Monaco", 15, g);
+                    ntext("Drag two chemicals together in \\ the menu bar to mix them.", cx, cy, g, tx, ty);
+                    break;
+                case 7:
+                    w = 220;
+                    fill(200, 200, 200, g);
+                    textFont("Monaco", 15, g);
+                    
+                    //text("Watch out", x + 31, y + h/2, g, tx, ty);
+                    //text("for robots!", x + 31, y + 76, g, tx, ty);
+                    ntext(" Watch out for \\ laser robots!", cx, cy, g, tx, ty);
+                    break;
+                case 24:
+                    w = 320;
+                    drawChemical(x + 46, y + 69, g, 255, 0, 0, 0, 255, 0, tx, ty);
+                    
+                    fill(0, 0, 0, g);
+                    line(x + 88, y + 57, x + 110, y + 57, g, tx, ty);
+                    line(x + 88, y + 66, x + 110, y + 66, g, tx, ty);
+                    rect(x + 140, y + 56, 12, 1, g, tx, ty);
+                    rect(x + 140, y + 62, 12, 1, g, tx, ty);
+                    rect(x + 140, y + 68, 12, 1, g, tx, ty);
+                    fill(255, 0, 0, g);
+                    rect(x + 165, y + 64, 30, 30, g, tx, ty);
+                    fill(0, 200, 0, g);
+                    rect(x + 245, y + 59, 90, 60, g, tx, ty);
+                    fill(255, 0, 0, g);
+                    rect(x + 245, y + 74, 30, 30, g, tx, ty);
+                    break;
+                case 25:
+                    w = 160;
+                    
+                    fill(200, 200, 200, g);
+                    textSize(14, g);
+                    text("Watch out", x + 42, y + 56, g, tx, ty);
+                    text("for fall damage!", x + 28, y + 76, g, tx, ty);
+                    break;
+                
             }
             
             return;
@@ -168,6 +230,32 @@ public class Block extends drawInterface {
         rect(x, y - 2, 10, 10, g, tx, ty);
         
         fill(c1, c2, c3, 200, g);
+        
+        rect(x, y - 10, 10, 10, g, tx, ty);
+        
+        fill(200, 200, 200, 200, g);
+        
+        line(x - 5, y - 19, x - 5, y + 4, g, tx, ty);
+        line(x + 5, y - 19, x + 5, y + 4, g, tx, ty);
+    }
+    
+    public void drawChemical(int x, int y, Graphics g, int c1, int c2, int c3, int c4, int c5, int c6, int tx, int ty) {
+        fill(200, 200, 200, 100, g);
+        rect(x, y - 8, 10, 25, g, tx, ty);
+        
+        fill(c1, c2, c3, 200, g);
+        
+        ellipse(x, y + 2, 10, 12, g, tx, ty);
+        
+        fill(200, 200, 200, 200, g);
+        strokeWeight(3, g);
+        ellipseOutline(x, y + 2, 10, 12, g, tx, ty);
+        
+        fill(c1, c2, c3, 200, g);
+        
+        rect(x, y - 2, 10, 10, g, tx, ty);
+        
+        fill(c4, c5, c6, 200, g);
         
         rect(x, y - 10, 10, 10, g, tx, ty);
         

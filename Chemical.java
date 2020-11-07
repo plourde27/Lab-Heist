@@ -84,11 +84,10 @@ public class Chemical extends drawInterface {
     }
     
     public int mix(Chemical other, Display d) {
-        //System.out.println("MIXING " + id + " " + other.id);
         if (map[id][other.id] != -1 && rec[id][other.id] != -1 && rec[id][other.id] <= d.room) {
             return map[id][other.id];
         }
-        if (map[other.id][id] != -1 && rec[other.id][id] != -1 && rec[id][other.id] <= d.room) {
+        if (map[other.id][id] != -1 && rec[other.id][id] != -1 && rec[other.id][id] <= d.room) {
             return map[other.id][id];
         }
         return -1;
