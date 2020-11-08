@@ -166,6 +166,110 @@ public class Block extends drawInterface {
                     //text("for robots!", x + 31, y + 76, g, tx, ty);
                     ntext(" Watch out for \\ laser robots!", cx, cy, g, tx, ty);
                     break;
+                case 8:
+                    w = 300;
+                    drawChemical(x + 46, y + 69, g, 255, 0, 0, 0, 0, 255, tx, ty);
+                    
+                    fill(0, 0, 0, g);
+                    line(x + 88, y + 57, x + 110, y + 57, g, tx, ty);
+                    line(x + 88, y + 66, x + 110, y + 66, g, tx, ty);
+                    rect(x + 140, y + 56, 12, 1, g, tx, ty);
+                    rect(x + 140, y + 62, 12, 1, g, tx, ty);
+                    rect(x + 140, y + 68, 12, 1, g, tx, ty);
+                    fill(255, 0, 0, g);
+                    rect(x + 165, y + 64, 30, 30, g, tx, ty);
+                    fill(0, 0, 0, g);
+                    rect(x + 245, y + 59, 30, 60, g, tx, ty);
+                    fill(255, 0, 0, g);
+                    rect(x + 215, y + 59, 30, 30, g, tx, ty);
+                    break;
+                case 9:
+                    w = 220;
+                    fill(200, 200, 200, g);
+                    textFont("Monaco", 15, g);
+                    
+                    //text("Watch out", x + 31, y + h/2, g, tx, ty);
+                    //text("for robots!", x + 31, y + 76, g, tx, ty);
+                    ntext(" Watch out for \\ spider robots!", cx, cy, g, tx, ty);
+                    break;
+                case 10:
+                    w = 240;
+                    fill(200, 200, 200, g);
+                    textSize(12, g);
+                    drawChemical(x + 55, y + 62, g, 0, 255, 0, 0, 0, 255, tx, ty);
+                    fill(0, 0, 0, g);
+                    line(x + 88, y + 53, x + 110, y + 53, g, tx, ty);
+                    line(x + 88, y + 62, x + 110, y + 62, g, tx, ty);
+                    
+                    fill(200, 0, 0, g);
+                    strokeWeight(8, g);
+                    yf = 60;
+                    ellipse(x + 150, y + yf, 60, 60, g, tx, ty);
+                    strokeWeight(0, g);
+                    fill(0, 125, 0, 255, g);
+                    ellipse(x + 150, y + yf, 56, 56, g, tx, ty);
+                    strokeWeight(3, g);
+                    fill(200, 0, 0, g);
+                    line((int)(x + 150 - 30 * Math.cos(Math.PI/4)), (int)(y + yf - 30 * Math.sin(Math.PI/4)), (int)(x + 150 + 30 * Math.cos(Math.PI/4)), (int)(y + yf + 30 * Math.sin(Math.PI/4)), g, tx, ty);
+                    strokeWeight(1, g);
+                    drawBug(x + 103, y + 43, 0.8, g, tx, ty);
+                    break;
+                case 11:
+                    w = 360;
+                    drawChemical(x + 55, y + 66, g, 255, 0, 0, tx, ty);
+                    textSize(50, g);
+                    fill(0, 0, 0, g);
+                    text("+", x + 77, y + 75, g, tx, ty);
+                    drawChemical(x + 135, y + 66, g, 0, 255, 0, tx, ty);
+                    fill(0, 0, 0, g);
+                    text("+", x + 157, y + 75, g, tx, ty);
+                    drawChemical(x + 215, y + 66, g, 0, 0, 255, tx, ty);
+                    fill(0, 0, 0, g);
+                    text("=", x + 237, y + 75, g, tx, ty);
+                    drawChemical(x + 295, y + 66, g, 0, 125, 200, tx, ty);
+                    break;
+                case 12:
+                    w = 280;
+                    fill(200, 200, 200, g);
+                    textFont("Monaco", 13, g);
+                    
+                    //text("Watch out", x + 31, y + h/2, g, tx, ty);
+                    //text("for robots!", x + 31, y + 76, g, tx, ty);
+                    ntext(" This is the boss level! \\ Good luck.", cx, cy, g, tx, ty);
+                    break;
+                case 13:
+                    w = 350;
+                    fill(200, 200, 200, g);
+                    textFont("Monaco", 13, g);
+                    
+                    //text("Watch out", x + 31, y + h/2, g, tx, ty);
+                    //text("for robots!", x + 31, y + 76, g, tx, ty);
+                    ntext(" You just pressed the self-destruct \\ switch! Be careful.", cx, cy, g, tx, ty);
+                    break;
+                case 22:
+                    w = 240;
+                    drawChemical(x + 55, y + 66, g, 0, 125, 200, tx, ty);
+                    fill(0, 0, 0, g);
+                    textSize(50, g);
+                    text("=", x + 77, y + 75, g, tx, ty);
+                    fill(255, 0, 0, g);
+                    int ccx = x + 157;
+                    int ccy = y + 60;
+                    rect(ccx, ccy, 30, 30, g, tx, ty);
+                    
+                    for (int i = 0 ; i < 360 ; i += 45) {
+                        double ang = (i * (Math.PI / 180));
+                        fill(0, 0, 0, g);
+                        strokeWeight(3, g);
+                        line((int)(ccx + Math.cos(ang) * 24), (int)(ccy + Math.sin(ang) * 24), (int)(ccx + Math.cos(ang) * 33), (int)(ccy + Math.sin(ang) * 33), g, tx, ty);
+                        strokeWeight(1, g);
+                        vertex((int)(ccx + Math.cos(ang) * 38), (int)(ccy + Math.sin(ang) * 38));
+                        vertex((int)(ccx + Math.cos(ang) * 33 + Math.cos(ang + 90) * 5), (int)(ccy + Math.sin(ang) * 33 + Math.sin(ang + 90) * 5));
+                        vertex((int)(ccx + Math.cos(ang) * 33 + Math.cos(ang - 90) * 5), (int)(ccy + Math.sin(ang) * 33 + Math.sin(ang - 90) * 5));
+                        endShape(g, tx, ty);
+                    }
+                    break;
+                
                 case 24:
                     w = 320;
                     drawChemical(x + 46, y + 69, g, 255, 0, 0, 0, 255, 0, tx, ty);
@@ -211,6 +315,19 @@ public class Block extends drawInterface {
         rect((int)x, y, (int)(10*scl), (int)(10*scl), g, tx, ty);
         rect((int)x, (int)(y + 24.0*scl), (int)(23*scl), (int)(40*scl), g, tx, ty);
         rect((int)x, (int)(y + 58.0*scl), (int)(8*scl), (int)(30*scl), g, tx, ty);
+    }
+    
+    public void drawBug(int x, int y, double scl, Graphics g, int tx, int ty) {
+        //x -= 22*scl;
+        //y += 4*scl;
+        fill(180, 0, 0, g);
+        rect(x + (int)(44*scl), (int)y + (int)(30*scl), (int)(3*scl), (int)(20*scl), g, tx, ty);
+        rect(x + (int)(55*scl), (int)y + (int)(30*scl), (int)(3*scl), (int)(20*scl), g, tx, ty);
+        rect(x + (int)(65*scl), (int)y + (int)(30*scl), (int)(3*scl), (int)(20*scl), g, tx, ty);
+        rect(x + (int)(76*scl), (int)y + (int)(30*scl), (int)(3*scl), (int)(20*scl), g, tx, ty);
+        
+        fill(40, 0, 0, g);
+        ellipse((int)x + (int)(60*scl), y + (int)(20*scl), (int)(45*scl), (int)(30*scl), g, tx, ty);
     }
     
     public void drawChemical(int x, int y, Graphics g, int c1, int c2, int c3, int tx, int ty) {
