@@ -6,8 +6,15 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.*;
 import java.lang.Math.*;
+import java.applet.Applet;
+import java.net.URL;
+import javax.sound.sampled.*;
+import java.applet.AudioClip;
+import java.net.URL;
 
 public class Display extends drawInterface {
+    
+    
     
     Game game;
     Mouse mouse;
@@ -17,7 +24,7 @@ public class Display extends drawInterface {
     Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     Cursor arrowCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     
-    int room = 29;
+    int room = 0;
     int oroom = room;
     int stage = 0;
     
@@ -46,6 +53,9 @@ public class Display extends drawInterface {
     
     ArrayList<Integer> xs = new ArrayList<Integer>();
     ArrayList<Integer> ys = new ArrayList<Integer>();
+    
+    ArrayList<Clip> clips = new ArrayList<Clip>();
+    ArrayList<String> clipNames = new ArrayList<String>();
         
     
     public Display(Game g, Mouse m, Keyboard k, MoveMouse mmw, Frame frm) {
@@ -73,7 +83,63 @@ public class Display extends drawInterface {
                 ys.add(i);
             }
         }
+        
+        addClip("labheist.wav");
+        addClip("birthday.wav");
     }
+    
+    public void addClip(String s) {
+      try {
+         // Open an audio input stream.
+         URL url = this.getClass().getClassLoader().getResource(s);
+         AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+         // Get a sound clip resource.
+         Clip clip = AudioSystem.getClip();
+         // Open audio clip and load samples from the audio input stream.
+         clip.open(audioIn);
+         clips.add(clip);
+         clipNames.add(s);
+      } catch (UnsupportedAudioFileException e) {
+         e.printStackTrace();
+      } catch (IOException e) {
+         e.printStackTrace();
+      } catch (LineUnavailableException e) {
+         e.printStackTrace();
+      }
+   }
+   
+   public void play(String s) {
+       for (int i = 0 ; i < clips.size() ; i++) {
+           if (clipNames.get(i).equals(s)) {
+               if (clips.get(i).isRunning()) {
+                   clips.get(i).stop();
+               }
+               try {
+                   URL url = this.getClass().getClassLoader().getResource(s);
+                   AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+                     // Get a sound clip resource.
+                   Clip clip = AudioSystem.getClip();
+                     // Open audio clip and load samples from the audio input stream.
+                   clip.open(audioIn);
+                   clips.set(i, clip);
+                   clips.get(i).start();
+               }
+               catch (UnsupportedAudioFileException e) {
+                 e.printStackTrace();
+              } catch (IOException e) {
+                 e.printStackTrace();
+              } catch (LineUnavailableException e) {
+                 e.printStackTrace();
+              }
+               
+            }
+            else {
+                if (clips.get(i).isRunning()) {
+                   clips.get(i).stop();
+                }
+            }
+       }
+   }
     
     public void draw(){
         super.repaint();
@@ -129,6 +195,13 @@ public class Display extends drawInterface {
     }
     
     public void setLevel(boolean goback) {
+        if (Math.random() < 0.5) {
+            play("labheist.wav");
+        }
+        else {
+            play("birthday.wav");
+        }
+        
         blocks = new ArrayList<Block>();
         robots = new ArrayList<Robot>();
         
@@ -300,6 +373,7 @@ public class Display extends drawInterface {
         
         
         if (start) {
+            play("labheist.wav");
             setStage();
             setLevel();
             start = false;
