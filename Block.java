@@ -309,78 +309,7 @@ public class Block extends drawInterface {
         rect(x + w/2, y + h/2, w, h, g, tx, ty);
     }
     
-    public void drawBot(int x, int y, double scl, Graphics g, int tx, int ty) {
-        fill(200, 0, 0, g);
-        rect((int)x, (int)(y - 12*scl), (int)(17*scl), (int)(17*scl), g, tx, ty);
-        rect((int)x, y, (int)(10*scl), (int)(10*scl), g, tx, ty);
-        rect((int)x, (int)(y + 24.0*scl), (int)(23*scl), (int)(40*scl), g, tx, ty);
-        rect((int)x, (int)(y + 58.0*scl), (int)(8*scl), (int)(30*scl), g, tx, ty);
-    }
     
-    public void drawBug(int x, int y, double scl, Graphics g, int tx, int ty) {
-        //x -= 22*scl;
-        //y += 4*scl;
-        fill(180, 0, 0, g);
-        rect(x + (int)(44*scl), (int)y + (int)(30*scl), (int)(3*scl), (int)(20*scl), g, tx, ty);
-        rect(x + (int)(55*scl), (int)y + (int)(30*scl), (int)(3*scl), (int)(20*scl), g, tx, ty);
-        rect(x + (int)(65*scl), (int)y + (int)(30*scl), (int)(3*scl), (int)(20*scl), g, tx, ty);
-        rect(x + (int)(76*scl), (int)y + (int)(30*scl), (int)(3*scl), (int)(20*scl), g, tx, ty);
-        
-        fill(40, 0, 0, g);
-        ellipse((int)x + (int)(60*scl), y + (int)(20*scl), (int)(45*scl), (int)(30*scl), g, tx, ty);
-    }
-    
-    public void drawChemical(int x, int y, Graphics g, int c1, int c2, int c3, int tx, int ty) {
-        fill(200, 200, 200, 100, g);
-        rect(x, y - 8, 10, 25, g, tx, ty);
-        
-        fill(c1, c2, c3, 200, g);
-        
-        ellipse(x, y + 2, 10, 12, g, tx, ty);
-        
-        fill(200, 200, 200, 200, g);
-        strokeWeight(3, g);
-        ellipseOutline(x, y + 2, 10, 12, g, tx, ty);
-        
-        fill(c1, c2, c3, 200, g);
-        
-        rect(x, y - 2, 10, 10, g, tx, ty);
-        
-        fill(c1, c2, c3, 200, g);
-        
-        rect(x, y - 10, 10, 10, g, tx, ty);
-        
-        fill(200, 200, 200, 200, g);
-        
-        line(x - 5, y - 19, x - 5, y + 4, g, tx, ty);
-        line(x + 5, y - 19, x + 5, y + 4, g, tx, ty);
-    }
-    
-    public void drawChemical(int x, int y, Graphics g, int c1, int c2, int c3, int c4, int c5, int c6, int tx, int ty) {
-        fill(200, 200, 200, 100, g);
-        rect(x, y - 8, 10, 25, g, tx, ty);
-        
-        fill(c1, c2, c3, 200, g);
-        
-        ellipse(x, y + 2, 10, 12, g, tx, ty);
-        
-        fill(200, 200, 200, 200, g);
-        strokeWeight(3, g);
-        ellipseOutline(x, y + 2, 10, 12, g, tx, ty);
-        
-        fill(c1, c2, c3, 200, g);
-        
-        rect(x, y - 2, 10, 10, g, tx, ty);
-        
-        fill(c4, c5, c6, 200, g);
-        
-        rect(x, y - 10, 10, 10, g, tx, ty);
-        
-        fill(200, 200, 200, 200, g);
-        
-        line(x - 5, y - 19, x - 5, y + 4, g, tx, ty);
-        line(x + 5, y - 19, x + 5, y + 4, g, tx, ty);
-    }
     
     public void update(Display d) {
         

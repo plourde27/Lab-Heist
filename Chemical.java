@@ -204,7 +204,6 @@ public class Chemical extends drawInterface {
             vy = 0;
         }
         
-        
         fill(200, 200, 200, 100, g);
         rect(x, y - 8, 10, 25, g, vx, vy);
         

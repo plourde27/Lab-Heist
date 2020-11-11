@@ -89,7 +89,7 @@ public class Player extends drawInterface {
         
         fill(col1[0], col1[1], col1[2], 200, g);
         
-        rect(1080 - wid / 2, 5, wid, 10, g, 0, 0);
+        rect(1080 - wid / 2, 105, wid, 10, g, 0, 0);
         
         fill(col2[0], col2[1], col2[2], 200, g);
         
@@ -387,11 +387,15 @@ public class Player extends drawInterface {
                         }
                     }
                     
+                    
+                    
                     if (f) {
                         break;
                     }
                     ct++;
                 }
+                
+                System.out.println(c.x + " " + c.y);
                 
                 if (ct == 1000) {
                     c.x = ox;
@@ -421,6 +425,7 @@ public class Player extends drawInterface {
             d.allChemicals.get(i).id = d.allChemicals.get(i).oid;
         }
         
+        timeleft = 0;
         d.room = savedRoom;
         x = savedX;
         y = savedY;

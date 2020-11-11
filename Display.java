@@ -15,6 +15,8 @@ import java.net.URL;
 public class Display extends drawInterface {
     
     
+    double dfr = 0;
+    int fr = 0;
     
     Game game;
     Mouse mouse;
@@ -24,6 +26,8 @@ public class Display extends drawInterface {
     Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
     Cursor arrowCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     
+    String scene = "Menu";
+    
     int room = 0;
     int oroom = room;
     int stage = 0;
@@ -32,6 +36,10 @@ public class Display extends drawInterface {
     int sizeX, sizeY;
     
     int[] stageNum = {35, 0, 0, 0, 0, 0};
+    int[] stageRooms = {0, 0, 0, 0, 0, 0};
+    int[][] stageCols = {{200, 0, 0}, {200, 0, 200}, {200, 200, 0}, {200, 0, 100}, {125, 55, 0}, {0, 200, 100}};
+    
+    String[] stageNames = {"Speedy Jumps", "Sticky Ceilings", "Bombs and Backpacks", "Teleportation", "No Name", "No Name"};
     
     Player p;
     ArrayList<Block> blocks;
@@ -56,10 +64,12 @@ public class Display extends drawInterface {
     
     ArrayList<Clip> clips = new ArrayList<Clip>();
     ArrayList<String> clipNames = new ArrayList<String>();
-        
+    
+    int[][][] cols;
     
     public Display(Game g, Mouse m, Keyboard k, MoveMouse mmw, Frame frm) {
         super();
+        
         frame = frm;
         game = g;
         mouse = m;
@@ -84,8 +94,45 @@ public class Display extends drawInterface {
             }
         }
         
+        cols = new int[100][100][4];
+        
+        for (int i = 0 ; i < 100 ; i++) {
+            for (int j = 0 ; j < 100 ; j++) {
+                int[] col = new int[]{0, 0, 0, 0};
+                if (Math.random() < 0.5) {
+                    if (Math.random() < 0.33) {
+                        col = new int[]{255, 0, 0, 0};
+                    }
+                    else if (Math.random() < 0.5) {
+                        col = new int[]{0, 255, 0, 0};
+                    }
+                    else {
+                        col = new int[]{0, 0, 255, 0};
+                    }
+                }
+                else {
+                    if (Math.random() < 0.33) {
+                        col = new int[]{255, 0, 0, 1};
+                    }
+                    else if (Math.random() < 0.5) {
+                        col = new int[]{0, 255, 0, 1};
+                    }
+                    else {
+                        col = new int[]{0, 0, 255, 1};
+                    }
+                }
+                cols[i][j] = col;
+            }
+        }
+        
         addClip("labheist.wav");
         addClip("birthday.wav");
+        addClip("menu.wav");
+        
+        play("menu.wav");
+        
+        
+        
     }
     
     public void addClip(String s) {
@@ -97,7 +144,10 @@ public class Display extends drawInterface {
          Clip clip = AudioSystem.getClip();
          // Open audio clip and load samples from the audio input stream.
          clip.open(audioIn);
+         clip.loop(Clip.LOOP_CONTINUOUSLY);  // repeat forever
          clips.add(clip);
+         
+
          clipNames.add(s);
       } catch (UnsupportedAudioFileException e) {
          e.printStackTrace();
@@ -121,6 +171,7 @@ public class Display extends drawInterface {
                    Clip clip = AudioSystem.getClip();
                      // Open audio clip and load samples from the audio input stream.
                    clip.open(audioIn);
+                   clip.loop(Clip.LOOP_CONTINUOUSLY);  // repeat forever
                    clips.set(i, clip);
                    clips.get(i).start();
                }
@@ -195,12 +246,7 @@ public class Display extends drawInterface {
     }
     
     public void setLevel(boolean goback) {
-        if (Math.random() < 0.5) {
-            play("labheist.wav");
-        }
-        else {
-            play("birthday.wav");
-        }
+        
         
         blocks = new ArrayList<Block>();
         robots = new ArrayList<Robot>();
@@ -348,102 +394,240 @@ public class Display extends drawInterface {
         setLevel(false);
     }
     
+    public void labBR(Graphics g) {
+        dfr += 0.18;
+        fr = (int)dfr;
+        int ix = 1080/25;
+        int iy = 700/10;
+        double cs = 1.8;
+        double rs = 0.6;
+        int n = 0;
+        int m = 0;
+        for (int i = 0 ; i < 2160 ; i += ix) {
+            m = 0;
+            for (int j = 0 ; j < 720 ; j += iy) {
+                int[] col = new int[]{cols[n][m][0], cols[n][m][1], cols[n][m][2]};
+                int x = i + ix/2 + fr;
+                if (m % 2 == 1) {
+                    x = i + ix/2 - fr;
+                }
+                
+                if (cols[n][m][3] == 0) {
+                    drawChemical((x)%2160 - 540, j + iy/2 + 5, g, col[0], col[1], col[2], col[0], col[1], col[2], 0, 0, (int)cs);
+                }
+                else {
+                    drawBot((x)%2160 - 540, j + iy/2 - 15, rs, col[0], col[1], col[2], g, 0, 0);
+                }
+                //fill(0, 0, 0, g);
+                //line(0, j, 1080, j, g, 0, 0);
+                m++;
+            }
+            
+            n++;
+        }
+        fill(255, 255, 255, 220, g);
+        rect(540, 360, 1080, 720, g, 0, 0);
+    }
+    
     public void paintComponent(Graphics g){
         
         
         super.paintComponent(g);
-        
-        sec -= 0.01;
         
         fill(255, 255, 255, g);
         rect(540, 360, 1080, 720, g, 0, 0);
         
         
         
-        /*fill(125, 125, 125, 100, g);
-        strokeWeight(8, g);
-        for (int i = 0 ; i < Math.min(xs.size(), ys.size()) ; i++) {
-            line(0, xs.get(i), 540, xs.get(i), g, 0, 0);
-            line(540, ys.get(i), 1080, ys.get(i), g, 0, 0);
-            line(540, ys.get(i), 540, xs.get(i), g, 0, 0);
+        switch (scene) {
+            case "Menu":
+                labBR(g);
+                
+                fill(0, 0, 0, g);
+                textSize(120, g);
+                textFont("Skia", 120, g);
+                text("LAB HEIST", 230, 140, g, 0, 0);
+                int cmy = 285;
+                drawChemical(540, cmy, g, 255, 0, 0, 255, 0, 0, 0, 0, 4);
+                drawChemical(200, cmy, g, 0, 255, 0, 0, 255, 0, 0, 0, 4);
+                drawChemical(880, cmy, g, 0, 0, 255, 0, 0, 255, 0, 0, 4);
+                int rby = 405;
+                drawBot(200, rby, 1.7, 255, 0, 0, g, 0, 0);
+                drawBot(540, rby, 1.7, 0, 0, 255, g, 0, 0);
+                drawBot(880, rby, 1.7, 0, 255, 0, g, 0, 0);
+                int by = 618;
+                fill(0, 0, 0, g);
+                rect(540, by, 160, 80, g, 0, 0);
+                fill(255, 255, 255, g);
+                rect(540, by, 156, 76, g, 0, 0);
+                fill(0, 0, 0, g);
+                textFont("Monaco", 30, g);
+                ntext("Play", 540, by, g, 0, 0);
+                
+                if (mouse.clicked && mouse.x >= 460 && mouse.x <= 620 && mouse.y >= 578 && mouse.y <= 658) {
+                    scene = "LevelSelect";
+                }
+                break;
+            case "LevelSelect":
+                labBR(g);
+                fill(0, 0, 0, g);
+                textSize(120, g);
+                textFont("Skia", 110, g);
+                text("LAB SELECT", 230, 134, g, 0, 0);
+                fill(0, 0, 0, g);
+                strokeWeight(1, g);
+                line(0, 180, 1080, 180, g, 0, 0);
+                
+                int x = 135;
+                int y = 320;
+                
+                for (int i = 0 ; i < 4 ; i++) {
+                    fill(0, 0, 0, g);
+                    rect(x, y, 200, 200, g, 0, 0);
+                    fill(255, 255, 255, g);
+                    rect(x, y, 196, 196, g, 0, 0);
+                    
+                    fill(stageCols[i][0], stageCols[i][1], stageCols[i][2], g);
+                    rect(x, y + 58, 196, 80, g, 0, 0);
+                    
+                    fill(255, 255, 255, g);
+                    textFont("Monaco", 14, g);
+                    ntext("LAB " + (i+1) + " \\ " + stageNames[i] + " \\ " + (stageRooms[i]) + " / " + (stageNum[i]) + " Rooms Completed", x + 7, y + 61, g, 0, 0);
+                    
+                    if (i == 0 && mouse.clicked && mouse.x >= x - 100 && mouse.x <= x + 100 && mouse.y >= y - 100 && mouse.y <= y + 100) {
+                        scene = "Play";
+                        play("labheist.m4a");
+                        room = stageRooms[i];
+                        start = true;
+                    }
+                    
+                    if (i > 0) {
+                        fill(255, 255, 255, 210, g);
+                        rect(x, y, 200, 200, g, 0, 0);
+                    }
+                    
+                    x += 270;
+
+                    if (x > 1080) {
+                        x = 135;
+                        y += 220;
+                    }
+                    
+                    
+                    
+                    
+                }
+                fill(0, 0, 0, g);
+                textFont("Monaco", 40, g);
+                ntext("More Stages Coming Soon!", 540, 600, g, 0, 0);
+                break;
+            case "Play":
+        
+                sec -= 0.01;
+                
+                
+                
+                
+                
+                /*fill(125, 125, 125, 100, g);
+                strokeWeight(8, g);
+                for (int i = 0 ; i < Math.min(xs.size(), ys.size()) ; i++) {
+                    line(0, xs.get(i), 540, xs.get(i), g, 0, 0);
+                    line(540, ys.get(i), 1080, ys.get(i), g, 0, 0);
+                    line(540, ys.get(i), 540, xs.get(i), g, 0, 0);
+                }
+                
+                strokeWeight(1, g);*/
+                
+                
+                
+                if (start) {
+                    play("labheist.wav");
+                    setStage();
+                    setLevel();
+                    start = false;
+                }
+                
+                for (int i = 0 ; i < blocks.size() ; i++) {
+                    blocks.get(i).display(g, tx, ty, this);
+                }
+                
+                for (int i = 0 ; i < robots.size() ; i++) {
+                    robots.get(i).display(g, p, this, tx, ty);
+                }
+                
+                int ltx = 0;
+                int rtx = sizeY*40 - 1080;
+                int lty = -100;
+                int rty = sizeX*40 - 560;
+                
+                tx = p.x - 540;
+                tx = Math.max(tx, ltx);
+                tx = Math.min(tx, rtx);
+                
+                ty = p.y - 320;
+                ty = Math.max(ty, lty);
+                
+                
+                ty = Math.min(ty, rty);
+                
+                fill(255, 255, 255, g);
+                rect(540, 640, 1080, 160, g, 0, 0);
+                
+                p.display(g, kb, tx, ty, this, mouse, mm);
+
+                
+                
+                
+                int ttx = -20;
+                fill(255, 255, 255, 255, g);
+                rect(540, 50, 1080, 100, g, 0, 0);
+                
+                fill(0, 0, 0, g);
+                strokeWeight(3, g);
+                line(0, 100, 1080, 100, g, 0, 0);
+                strokeWeight(1, g);
+                
+                fill(0, 0, 0, g);
+                textSize(30, g);
+                text("LAB HEIST", 140, 80 + ttx, g, 0, 0);
+                text("STAGE " + (stage+1), 350, 80 + ttx, g, 0, 0);
+                text("ROOM " + (room+1), 530, 80 + ttx, g, 0, 0);
+                
+                fill(0, 0, 0, g);
+                rect(850, 70 + ttx, 310, 46, g, 0, 0);
+                fill(255, 255, 255, g);
+                rect(850, 70 + ttx, 300, 36, g, 0, 0);
+                fill(255, 0, 0, 200, g);
+                rect(700 + (int)(300*(p.health/200.0)), 70 + ttx, (int)(300*(p.health/100.0)), 36, g, 0, 0);
+                
+                fill(0, 0, 0, g);
+                textSize(21, g);
+                text("Health: " + p.health, 780, 78 + ttx, g, 0, 0);
+                
+                if (selfdestruct) {
+                    fill(0, 0, 0, g);
+                    textSize(30, g);
+                    text("SELF-DESTRUCT SEQUENCE INITIATED!", 300, 135 + ttx, g, 0, 0);
+                    fill(255, 0, 0, g);
+                    textSize(24, g);
+                    text("THE LAB WILL SELF-DESTRUCT IN " + (int)sec + " SECONDS", 310, 170 + ttx, g, 0, 0);
+                }
+                else {
+                    sec = 300;
+                }
+                
+                
+                
+                if (p.x > sizeY*40 || p.y > sizeX*40 || p.x < 0 || p.y < 0) {
+                    oroom = room;
+                    room = p.room;
+                    setLevel();
+                }
+                
+                mouse.clicked = false;
+                break;
         }
-        
-        strokeWeight(1, g);*/
-        
-        
-        
-        if (start) {
-            play("labheist.wav");
-            setStage();
-            setLevel();
-            start = false;
-        }
-        
-        for (int i = 0 ; i < blocks.size() ; i++) {
-            blocks.get(i).display(g, tx, ty, this);
-        }
-        
-        for (int i = 0 ; i < robots.size() ; i++) {
-            robots.get(i).display(g, p, this, tx, ty);
-        }
-        
-        int ltx = 0;
-        int rtx = sizeY*40 - 1080;
-        int lty = 0;
-        int rty = sizeX*40 - 560;
-        
-        tx = p.x - 540;
-        tx = Math.max(tx, ltx);
-        tx = Math.min(tx, rtx);
-        
-        ty = p.y - 320;
-        ty = Math.max(ty, lty);
-        
-        
-        ty = Math.min(ty, rty);
-        
-        fill(255, 255, 255, g);
-        rect(540, 640, 1080, 160, g, 0, 0);
-        
-        fill(0, 0, 0, g);
-        textSize(30, g);
-        text("LAB HEIST", 140, 80, g, 0, 0);
-        text("STAGE " + (stage+1), 350, 80, g, 0, 0);
-        text("ROOM " + (room+1), 530, 80, g, 0, 0);
-        
-        fill(0, 0, 0, g);
-        rect(850, 70, 310, 46, g, 0, 0);
-        fill(255, 255, 255, g);
-        rect(850, 70, 300, 36, g, 0, 0);
-        fill(255, 0, 0, 200, g);
-        rect(700 + (int)(300*(p.health/200.0)), 70, (int)(300*(p.health/100.0)), 36, g, 0, 0);
-        
-        fill(0, 0, 0, g);
-        textSize(21, g);
-        text("Health: " + p.health, 780, 78, g, 0, 0);
-        
-        if (selfdestruct) {
-            fill(0, 0, 0, g);
-            textSize(30, g);
-            text("SELF-DESTRUCT SEQUENCE INITIATED!", 300, 135, g, 0, 0);
-            fill(255, 0, 0, g);
-            textSize(24, g);
-            text("THE LAB WILL SELF-DESTRUCT IN " + (int)sec + " SECONDS", 310, 170, g, 0, 0);
-        }
-        else {
-            sec = 300;
-        }
-        
-        p.display(g, kb, tx, ty, this, mouse, mm);
-        
-        
-        if (p.x > sizeY*40 || p.y > sizeX*40 || p.x < 0 || p.y < 0) {
-            oroom = room;
-            room = p.room;
-            setLevel();
-        }
-        
-        mouse.clicked = false;
         
     }
 }
