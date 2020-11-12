@@ -454,6 +454,8 @@ public class Display extends drawInterface {
                 textSize(120, g);
                 textFont("Skia", 120, g);
                 text("LAB HEIST", 230, 140, g, 0, 0);
+                textFont("Avenir", 20, g);
+                text("Pre-release Edition", 440, 170, g, 0, 0);
                 int cmy = 285;
                 drawChemical(540, cmy, g, 255, 0, 0, 255, 0, 0, 0, 0, 4);
                 drawChemical(200, cmy, g, 0, 255, 0, 0, 255, 0, 0, 0, 4);
