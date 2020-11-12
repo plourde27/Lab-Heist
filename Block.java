@@ -288,12 +288,12 @@ public class Block extends drawInterface {
                     rect(x + 245, y + 74, 30, 30, g, tx, ty);
                     break;
                 case 25:
-                    w = 160;
+                    w = 220;
                     
                     fill(200, 200, 200, g);
-                    textSize(14, g);
-                    text("Watch out", x + 42, y + 56, g, tx, ty);
-                    text("for fall damage!", x + 28, y + 76, g, tx, ty);
+                    textSize(12, g);
+                    textFont("Monaco", 12, g);
+                    ntext(" You can save potions \\  for use in later levels.", cx+5, cy, g, tx, ty);
                     break;
                 
             }

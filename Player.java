@@ -82,7 +82,7 @@ public class Player extends drawInterface {
             wid = (int) ((((double)timeleft) / mx) * 1080);
         }
         
-        if (effect == 1 || effect == 5) {
+        if (effect == 1 || effect == 3 || effect == 5) {
             fill(0, 200, 0, 50, g);
             ellipse(x+w/2, y+h/2, 150, 150, g, tx, ty);
         }
@@ -93,7 +93,7 @@ public class Player extends drawInterface {
         
         fill(col2[0], col2[1], col2[2], 200, g);
         
-        rect(1080 - wid / 2, 15, wid, 10, g, 0, 0);
+        rect(1080 - wid / 2, 115, wid, 10, g, 0, 0);
         
         fill(255, 0, 0, g);
         
@@ -162,10 +162,10 @@ public class Player extends drawInterface {
             
             if (mnx != -1) {
                 if (mnx > x) {
-                    velx = 3;
+                    //velx = 3;
                 }
                 else {
-                    velx = -3;
+                    //velx = -3;
                 }
             }
         }
@@ -291,14 +291,14 @@ public class Player extends drawInterface {
                                     mxax = x;
                                 }
                                 else {
-                                    d.blocks.remove(d.blocks.size() - 1);
+                                    //d.blocks.remove(d.blocks.size() - 1);
                                 }
                                 
                                 mnax = Math.min(mnax, x);
                                 mxax = Math.max(mxax, x);
                                 
                                 
-                                d.blocks.add(new Block(mnax, y + 10, mxax - mnax + 30, 20, 1));
+                                //d.blocks.add(new Block(mnax, y + 10, mxax - mnax + 30, 20, 1));
                                 
                                 seenb = true;
                             }

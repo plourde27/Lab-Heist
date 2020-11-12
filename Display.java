@@ -207,6 +207,13 @@ public class Display extends drawInterface {
     }
     
     public void setStage() {
+        allChemicals = new ArrayList<Chemical>();
+        allBlocks = new ArrayList<Block>();
+        allRobots = new ArrayList<Robot>();
+        crooms = new ArrayList<Integer>();
+        brooms = new ArrayList<Integer>();
+        rrooms = new ArrayList<Integer>();
+        
         for (int k = 0 ; k < stageNum[stage] ; k++) {
             Level l = new Level(stage, k);
             String[] level = l.setLevel();
@@ -497,7 +504,8 @@ public class Display extends drawInterface {
                     if (i == 0 && mouse.clicked && mouse.x >= x - 100 && mouse.x <= x + 100 && mouse.y >= y - 100 && mouse.y <= y + 100) {
                         scene = "Play";
                         play("labheist.m4a");
-                        room = stageRooms[i];
+                        p.room = stageRooms[i];
+                        //p.die(this);
                         start = true;
                     }
                     
@@ -574,6 +582,14 @@ public class Display extends drawInterface {
                 fill(255, 255, 255, g);
                 rect(540, 640, 1080, 160, g, 0, 0);
                 
+                fill(0, 0, 0, g);
+                strokeWeight(3, g);
+                line(0, 559, 1080, 559, g, 0, 0);
+                strokeWeight(1, g);
+                
+                //textSize(20, g);
+                //text("Chemical Menu", 400, 560, g, 0, 0);
+                
                 p.display(g, kb, tx, ty, this, mouse, mm);
 
                 
@@ -589,21 +605,35 @@ public class Display extends drawInterface {
                 strokeWeight(1, g);
                 
                 fill(0, 0, 0, g);
-                textSize(30, g);
-                text("LAB HEIST", 140, 80 + ttx, g, 0, 0);
-                text("STAGE " + (stage+1), 350, 80 + ttx, g, 0, 0);
-                text("ROOM " + (room+1), 530, 80 + ttx, g, 0, 0);
+                rect(80, 50, 100, 50, g, 0, 0);
+                fill(255, 255, 255, g);
+                rect(80, 50, 96, 46, g, 0, 0);
+                fill(0, 0, 0, g);
+                textSize(20, g);
+                text("Home", 53, 58, g, 0, 0);
+                
+                if (mouse.clicked && mouse.x >= 30 && mouse.x <= 130 && mouse.y >= 25 && mouse.y <= 75) {
+                    scene = "LevelSelect";
+                    stageRooms[stage] = p.savedRoom;
+                    play("menu.m4a");
+                }
                 
                 fill(0, 0, 0, g);
-                rect(850, 70 + ttx, 310, 46, g, 0, 0);
+                textSize(30, g);
+                text("LAB HEIST", 170, 80 + ttx, g, 0, 0);
+                text("STAGE " + (stage+1), 380, 80 + ttx, g, 0, 0);
+                text("ROOM " + (room+1), 560, 80 + ttx, g, 0, 0);
+                
+                fill(0, 0, 0, g);
+                rect(880, 70 + ttx, 310, 46, g, 0, 0);
                 fill(255, 255, 255, g);
-                rect(850, 70 + ttx, 300, 36, g, 0, 0);
+                rect(880, 70 + ttx, 300, 36, g, 0, 0);
                 fill(255, 0, 0, 200, g);
-                rect(700 + (int)(300*(p.health/200.0)), 70 + ttx, (int)(300*(p.health/100.0)), 36, g, 0, 0);
+                rect(730 + (int)(300*(p.health/200.0)), 70 + ttx, (int)(300*(p.health/100.0)), 36, g, 0, 0);
                 
                 fill(0, 0, 0, g);
                 textSize(21, g);
-                text("Health: " + p.health, 780, 78 + ttx, g, 0, 0);
+                text("Health: " + p.health, 810, 78 + ttx, g, 0, 0);
                 
                 if (selfdestruct) {
                     fill(0, 0, 0, g);

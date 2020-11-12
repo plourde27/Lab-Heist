@@ -130,12 +130,13 @@ public class Robot extends drawInterface {
                 mode = -mode;
             }
             
-            if (p.x + 15 >= this.x - 12 && p.x - 15 <= this.x + 12 && p.y + 15 >= this.y - 22 && p.y - 15 <= this.y + 75) {
-                p.die(d);
-            }
+            
             
             if ((p.effect == 1 || p.effect == 3 || p.effect == 5) && Math.sqrt(Math.pow(p.x+p.w/2-x,2)+Math.pow(p.y+p.h/2-y,2)) < 75) {
                 die();
+            }
+            if (p.effect != 1 && p.effect != 3 && p.effect != 5 && p.x + 15 >= this.x - 12 && p.x - 15 <= this.x + 12 && p.y + 15 >= this.y - 22 && p.y - 15 <= this.y + 75) {
+                p.die(d);
             }
         }
         else if (type == 1) {
@@ -147,7 +148,7 @@ public class Robot extends drawInterface {
                 p.die(d);
             }
             
-            if (p.x + 15 >= this.x - 12 && p.x - 15 <= this.x + 12 && p.y + 15 >= this.y - 22 && p.y - 15 <= this.y + 75 && (p.effect != 3)) {
+            if (vely == 0 && p.x + 15 >= this.x - 12 && p.x - 15 <= this.x + 12 && p.y + 15 >= this.y - 22 && p.y - 15 <= this.y + 75 && (p.effect != 3)) {
                 p.die(d);
             }
             
